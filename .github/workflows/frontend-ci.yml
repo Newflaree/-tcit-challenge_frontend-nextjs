@@ -32,6 +32,9 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
+      - name: Compilar (genera los tipos de Next)
+        run: npm run build
+
       - name: Verificar tipos
         run: npm run typecheck
 

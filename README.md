@@ -83,6 +83,11 @@ HU vive en [`../docs/testing/matriz-pruebas.md`](../docs/testing/matriz-pruebas.
 Prerrequisito único para E2E: `npx playwright install chromium` (ya ejecutado
 en la instalación inicial; repetirlo tras actualizar Playwright).
 
+**Reproducibilidad:** `npm run typecheck` depende de los tipos generados por
+Next (`next-env.d.ts` y `.next/types`). Tras un clon fresco, ejecuta
+`npm run build` (o `npm run dev`) una vez antes de `npm run typecheck`; el
+workflow de CI hace el build antes del typecheck por este motivo.
+
 ### Herramientas
 
 - **Jest + `next/jest`** como runner y transformador (SWC).
