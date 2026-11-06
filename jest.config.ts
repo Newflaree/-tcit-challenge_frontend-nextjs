@@ -17,6 +17,19 @@ const config: Config = {
     "<rootDir>/.next/",
     "<rootDir>/e2e/",
   ],
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!src/**/*.d.ts",
+    "!src/test/**",
+  ],
+  coverageThreshold: {
+    "./src/config/": {
+      branches: 80,
+      functions: 90,
+      lines: 90,
+      statements: 90,
+    },
+  },
 };
 
 // createJestConfig se exporta así para que next/jest cargue la configuración
