@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TCIT Posts — Frontend
 
-## Getting Started
+Interfaz del challenge de Posts. Construida con Next.js App Router, React,
+Redux Toolkit y Tailwind CSS.
 
-First, run the development server:
+- Puerto por defecto: `4200`
+- URL de la API: `http://localhost:3000/api` (configurable)
+- Documentación del proyecto: [`../README.md`](../README.md)
+
+## Requisitos
+
+- Node.js 20 o superior.
+- npm 10 o superior (el repositorio incluye `package-lock.json`).
+- Backend en ejecución en `http://localhost:3000`.
+
+## Instalación
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+El archivo `.env.local` está ignorado por Git. `.env.example` sí se versiona.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variables de entorno
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Obligatoria | Valor por defecto | Descripción |
+|---|---|---|---|
+| `NEXT_PUBLIC_API_URL` | No | `http://localhost:3000/api` | URL base de la API |
 
-## Learn More
+La lectura de la variable está centralizada en `src/config/env.ts`. Si no se
+define, la aplicación usa el backend local documentado.
 
-To learn more about Next.js, take a look at the following resources:
+## Comandos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# desarrollo en http://localhost:4200
+npm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# verificar tipos
+npm run typecheck
 
-## Deploy on Vercel
+# lint
+npm run lint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# build de producción
+npm run build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# servir el build en http://localhost:4200
+npm run start
+```
+
+## Estructura
+
+```text
+src/
+  app/                 # Rutas y providers del App Router
+  config/env.ts        # URL base de la API
+  features/            # Slices y componentes por funcionalidad
+  store/               # Configuración de Redux Toolkit
+```
+
+## Estado y datos
+
+- **Redux** administra estado local/UI, como el filtro por nombre.
+- **TanStack Query** administrará el estado del servidor (posts). Se incorpora
+  en las HU de frontend.
+- El listado se consultará una sola vez por carga de vista; crear y eliminar
+  actualizarán la caché sin repetir el `GET`.
+
+## Testing
+
+La estrategia y las herramientas se configuran en las HU de testing
+(Jest, React Testing Library, MSW y Playwright). Por ahora los comandos
+disponibles son `lint`, `typecheck` y `build`.
+
+Las historias de usuario y el flujo de ramas están en `../docs/hu/README.md`.
