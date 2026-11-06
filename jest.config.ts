@@ -8,7 +8,9 @@ const createJestConfig = nextJest({
 
 const config: Config = {
   coverageProvider: "v8",
-  testEnvironment: "jsdom",
+  // jest-fixed-jsdom: entorno jsdom con los globales de Node (fetch, etc.) y
+  // las export conditions que MSW necesita (recomendado por la docs de MSW).
+  testEnvironment: "jest-fixed-jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };
 
