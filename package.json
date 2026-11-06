@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start --port 4200",
     "lint": "eslint",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\" \"e2e/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\" \"e2e/**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
@@ -35,6 +37,7 @@
     "jest-environment-jsdom": "^30.5.2",
     "jest-fixed-jsdom": "^0.0.11",
     "msw": "^3.0.4",
+    "prettier": "^3.9.10",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
