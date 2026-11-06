@@ -23,6 +23,12 @@ const config: Config = {
     "!src/test/**",
   ],
   coverageThreshold: {
+    global: {
+      branches: 0,
+      functions: 0,
+      lines: 0,
+      statements: 0,
+    },
     "./src/config/": {
       branches: 80,
       functions: 90,
