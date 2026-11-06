@@ -70,8 +70,61 @@ src/
 
 ## Testing
 
-La estrategia y las herramientas se configuran en las HU de testing
-(Jest, React Testing Library, MSW y Playwright). Por ahora los comandos
-disponibles son `lint`, `typecheck` y `build`.
+Estrategia definida en la HU-03. La matriz de casos por flujo, por nivel y por
+HU vive en [`../docs/testing/matriz-pruebas.md`](../docs/testing/matriz-pruebas.md).
+
+| Comando | Qué ejecuta | Requiere |
+|---|---|---|
+| `npm run test` | Tests unitarios e integración (Jest + `next/jest`, jsdom) | Nada |
+| `npm run test:watch` | Unitarios en modo watch | Nada |
+| `npm run test:cov` | Unitarios + cobertura con umbrales | Nada |
+| `npm run test:e2e` | Tests E2E (Playwright, Chromium) | Servidor de desarrollo (se levanta solo) |
+
+Prerrequisito único para E2E: `npx playwright install chromium` (ya ejecutado
+en la instalación inicial; repetirlo tras actualizar Playwright).
+
+### Herramientas
+
+- **Jest + `next/jest`** como runner y transformador (SWC).
+- **React Testing Library + `jest-dom`** para componentes y queries accesibles.
+- **MSW 3** intercepta todo el HTTP: los handlers base cubren listar, crear,
+  eliminar y error al nivel del contrato (`src/test/mocks/handlers.ts`); una
+  petición sin handler falla el test (`onUnhandledFrame: "error"`).
+- **Playwright** con un único proyecto Chromium; smoke de carga inicial en
+  `e2e/smoke.spec.ts`.
+
+### Cobertura
+
+`npm run test:cov` aplica umbrales mínimos por módulo crítico
+(`jest.config.ts`):
+
+- `./src/config/`: 90% statements / 80% branches / 90% functions / 90% lines.
+
+Política: al incorporar `src/features/**`, `src/store/**` y `src/lib/**`
+(HU-12+) se agregan sus umbrales con líneas/funciones ≥ 80 y ramas ≥ 70.
+
+### Regla “una sola llamada al listado por vista”
+
+Definida aquí y en la matriz §5; los tests funcionales llegan en HU-20. Plan:
+
+1. **Unitario (HU-12/20):** montar el hook/vista dentro de un
+   `QueryClientProvider` y afirmar que, tras remontaje, cambio de foco y
+   navegación simulada, no se repite la petición. La configuración esperada es
+   `staleTime` alto, `refetchOnWindowFocus: false`, `refetchOnReconnect: false`
+   y `refetchOnMount: false`, verificada por el número de llamadas (no por
+   opciones internas).
+2. **Integración (HU-20):** con MSW, un contador sobre `GET /api/posts`
+   (evento `request:start`/`response:mocked`) afirma `calls === 1` después de
+   montar → desmontar → remontar → `visibilitychange`/focus. Las mutaciones
+   actualizan la caché con `setQueryData` y el contador de `GET` sigue en 1.
+3. **E2E:** no aplica (declarado en la matriz de la HU-03).
+
+### Aislamiento
+
+- Los tests no llaman al backend real: MSW intercepta todo el HTTP.
+- Los datos son sintéticos (`src/test/fixtures/posts.ts`, espejo de
+  `tcit-test-back/test/fixtures/posts.json`).
+- El render central está en `src/test/test-utils.tsx` y se extenderá con los
+  providers en HU-12.
 
 Las historias de usuario y el flujo de ramas están en `../docs/hu/README.md`.
