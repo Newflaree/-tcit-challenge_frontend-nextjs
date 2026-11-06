@@ -43,6 +43,9 @@ npm run typecheck
 # lint
 npm run lint
 
+# verificar formato
+npm run format:check
+
 # build de producción
 npm run build
 
