@@ -12,6 +12,11 @@ const config: Config = {
   // las export conditions que MSW necesita (recomendado por la docs de MSW).
   testEnvironment: "jest-fixed-jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  testPathIgnorePatterns: [
+    "<rootDir>/node_modules/",
+    "<rootDir>/.next/",
+    "<rootDir>/e2e/",
+  ],
 };
 
 // createJestConfig se exporta así para que next/jest cargue la configuración
