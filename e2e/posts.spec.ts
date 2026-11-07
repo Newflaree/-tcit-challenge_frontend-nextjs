@@ -83,3 +83,30 @@ test("crear un post y verlo en la lista", async ({ page }) => {
   // The post should appear in the list
   await expect(page.getByRole("heading", { name: "Post E2E" })).toBeVisible();
 });
+
+test("filtrar por nombre muestra sólo coincidencias", async ({ page }) => {
+  await page.route("**/api/posts", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify([
+        { id: 1, name: "React post", description: "desc" },
+        { id: 2, name: "Vue post", description: "desc" },
+      ]),
+    });
+  });
+
+  await page.goto("/");
+
+  await expect(page.getByText("React post")).toBeVisible();
+  await expect(page.getByText("Vue post")).toBeVisible();
+
+  await page.getByPlaceholder("Filtrar por nombre...").fill("react");
+
+  await expect(page.getByText("React post")).toBeVisible();
+  await expect(page.getByText("Vue post")).not.toBeVisible();
+
+  // Clear filter restores all
+  await page.getByRole("button", { name: "Limpiar filtro" }).click();
+  await expect(page.getByText("Vue post")).toBeVisible();
+});
