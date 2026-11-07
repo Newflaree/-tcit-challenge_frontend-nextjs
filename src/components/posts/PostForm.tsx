@@ -11,7 +11,15 @@ export function PostForm() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        void form.submit();
+      }}
+      onKeyDown={(e) => {
+        if (
+          e.key === "Enter" &&
+          (e.target as HTMLElement).tagName !== "TEXTAREA"
+        ) {
+          e.preventDefault();
+          void form.submit();
+        }
       }}
       className="flex flex-col gap-4"
     >
