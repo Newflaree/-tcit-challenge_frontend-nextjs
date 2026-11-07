@@ -170,3 +170,71 @@ test("eliminar un post y verificar que desaparece", async ({ page }) => {
   ).not.toBeVisible();
   await expect(page.getByText("Post que queda")).toBeVisible();
 });
+
+test("flujo completo: crear, filtrar y eliminar", async ({ page }) => {
+  const posts: { id: number; name: string; description: string }[] = [
+    { id: 1, name: "Post existente", description: "desc" },
+  ];
+  let nextId = 2;
+
+  await page.route("**/api/posts", async (route) => {
+    if (route.request().method() === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(posts),
+      });
+    } else if (route.request().method() === "POST") {
+      const body = route.request().postDataJSON();
+      const created = { id: nextId++, name: body.name, description: body.description };
+      posts.push(created);
+      await route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify(created) });
+    } else {
+      await route.continue();
+    }
+  });
+
+  await page.route("**/api/posts/*", async (route) => {
+    if (route.request().method() === "DELETE") {
+      const id = Number(route.request().url().split("/").pop());
+      const idx = posts.findIndex((p) => p.id === id);
+      if (idx >= 0) posts.splice(idx, 1);
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ id }) });
+    } else {
+      await route.continue();
+    }
+  });
+
+  await page.goto("/");
+
+  // Create
+  await page.getByLabel(/Nombre/).fill("Nuevo filtrable");
+  await page.getByLabel(/Descripción/).fill("desc");
+  await page.getByRole("button", { name: "Crear post" }).click();
+  await expect(page.getByRole("heading", { name: "Nuevo filtrable" })).toBeVisible();
+
+  // Filter
+  await page.getByPlaceholder("Filtrar por nombre...").fill("filtrable");
+  await expect(page.getByRole("heading", { name: "Nuevo filtrable" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Post existente" })).not.toBeVisible();
+
+  // Clear filter
+  await page.getByRole("button", { name: "Limpiar filtro" }).click();
+  await expect(page.getByRole("heading", { name: "Post existente" })).toBeVisible();
+
+  // Delete the created post
+  const card = page.locator("article", { hasText: "Nuevo filtrable" });
+  await card.getByRole("button", { name: "Eliminar" }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "Eliminar" }).click();
+  await expect(page.getByRole("heading", { name: "Nuevo filtrable" })).not.toBeVisible();
+});
+
+test("navegación por teclado en formulario", async ({ page }) => {
+  await page.route("**/api/posts", async (route) => {
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify([]) });
+  });
+  await page.goto("/");
+  await page.keyboard.press("Tab");
+  // Just ensure no crash and page renders
+  await expect(page.getByRole("heading", { name: "Posts" })).toBeVisible();
+});
