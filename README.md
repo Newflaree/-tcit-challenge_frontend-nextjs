@@ -132,7 +132,22 @@ Definida aquí y en la matriz §5; los tests funcionales llegan en HU-20. Plan:
 - Los tests no llaman al backend real: MSW intercepta todo el HTTP.
 - Los datos son sintéticos (`src/test/fixtures/posts.ts`, espejo de
   `tcit-test-back/test/fixtures/posts.json`).
-- El render central está en `src/test/test-utils.tsx` y se extenderá con los
-  providers en HU-12.
+- El render central está en `src/test/test-utils.tsx`.
+
+### Separación Redux / TanStack Query
+
+- **Redux** (`src/store/`, `src/features/`): estado local/UI — filtro por nombre,
+  estado del diálogo de eliminación, preferencias de interfaz.
+- **TanStack Query** (`src/lib/query-client.ts`): estado del servidor — posts,
+  loading, error, caché, invalidación.
+- Los posts del servidor NO se guardan en Redux. La fuente de verdad es la
+  caché de Query.
+- `createQueryClient()` aplica defaults explícitos: `staleTime` 5 min,
+  `refetchOnWindowFocus: false`, `refetchOnReconnect: false`,
+  `refetchOnMount: false`, `retry: 1`. Esto implementa la regla "una sola
+  llamada al listado por vista".
+- `QueryClient` se instancia por render con `useState` (patrón SSR-safe) para
+  no compartir el cliente entre requests del servidor ni entre tests.
+- DevTools de Query (`ReactQueryDevtools`) sólo se cargan en desarrollo.
 
 Las historias de usuario y el flujo de ramas están en `../docs/hu/README.md`.
