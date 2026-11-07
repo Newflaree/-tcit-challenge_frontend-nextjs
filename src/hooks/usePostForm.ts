@@ -14,6 +14,7 @@ export function usePostForm() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [errors, setErrors] = useState<PostFormState["errors"]>({});
+  const [isSuccess, setIsSuccess] = useState(false);
   const mutation = useCreatePostMutation();
 
   function validate(): boolean {
@@ -42,8 +43,11 @@ export function usePostForm() {
       setName("");
       setDescription("");
       setErrors({});
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 3000);
       return true;
     } catch {
+      setIsSuccess(false);
       return false;
     }
   }
@@ -54,6 +58,7 @@ export function usePostForm() {
     description,
     setDescription,
     errors,
+    isSuccess,
     isPending: mutation.isPending,
     isError: mutation.isError,
     error: mutation.error,
@@ -62,6 +67,7 @@ export function usePostForm() {
       setName("");
       setDescription("");
       setErrors({});
+      setIsSuccess(false);
     },
   };
 }

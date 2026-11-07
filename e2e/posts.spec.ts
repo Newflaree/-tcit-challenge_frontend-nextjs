@@ -42,3 +42,44 @@ test("la página muestra estado vacío sin posts", async ({ page }) => {
 
   await expect(page.getByText("No hay posts")).toBeVisible();
 });
+
+test("crear un post y verlo en la lista", async ({ page }) => {
+  const posts: { id: number; name: string; description: string }[] = [];
+
+  await page.route("**/api/posts", async (route) => {
+    if (route.request().method() === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(posts),
+      });
+    } else if (route.request().method() === "POST") {
+      const body = route.request().postDataJSON();
+      const created = {
+        id: posts.length + 1,
+        name: body.name,
+        description: body.description,
+      };
+      posts.push(created);
+      await route.fulfill({
+        status: 201,
+        contentType: "application/json",
+        body: JSON.stringify(created),
+      });
+    } else {
+      await route.continue();
+    }
+  });
+
+  await page.goto("/");
+
+  // Fill the form
+  await page.getByLabel(/Nombre/).fill("Post E2E");
+  await page.getByLabel(/Descripción/).fill("Descripción E2E");
+
+  // Submit
+  await page.getByRole("button", { name: "Crear post" }).click();
+
+  // The post should appear in the list
+  await expect(page.getByRole("heading", { name: "Post E2E" })).toBeVisible();
+});
