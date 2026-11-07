@@ -1,0 +1,26 @@
+import { render, screen } from "@testing-library/react";
+
+import { TextField } from "@/components/ui/FormField";
+
+describe("TextField", () => {
+  it("asocia label, input y error", () => {
+    render(<TextField label="Nombre" error="El nombre es obligatorio" />);
+
+    const input = screen.getByLabelText("Nombre");
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "El nombre es obligatorio",
+    );
+  });
+
+  it("muestra hint cuando no hay error", () => {
+    render(<TextField label="Nombre" hint="Entre 1 y 120 caracteres" />);
+    expect(screen.getByText("Entre 1 y 120 caracteres")).toBeInTheDocument();
+  });
+
+  it("acepta className", () => {
+    render(<TextField label="Nombre" className="custom-class" />);
+    expect(screen.getByLabelText("Nombre")).toHaveClass("custom-class");
+  });
+});
