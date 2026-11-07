@@ -8,7 +8,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 
 function MixedComponent() {
-  const filter = useAppSelector((state) => state.posts?.items?.length ?? 0);
+  const filter = useAppSelector((state) => state.posts?.filterName ?? "");
   const { data } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => [1, 2],
@@ -37,6 +37,6 @@ describe("Mixed Redux + Query", () => {
     await waitFor(() => {
       expect(screen.getByTestId("query")).toHaveTextContent("2");
     });
-    expect(screen.getByTestId("redux")).toHaveTextContent("0");
+    expect(screen.getByTestId("redux")).toHaveTextContent("");
   });
 });

@@ -3,19 +3,16 @@
 import { useMemo } from "react";
 
 import { useAppSelector } from "@/store/hooks";
-import { selectFilterName } from "@/features/posts/postsFilterSlice";
+import { selectFilterName } from "@/features/posts/postsSlice";
 import { usePostsQuery } from "@/hooks/usePostsQuery";
-import type { Post } from "@/types/post";
+import { filterPostsByName } from "@/lib/filter-posts";
 
 export function useFilteredPosts() {
   const filterName = useAppSelector(selectFilterName);
   const { data: posts } = usePostsQuery();
 
   const filtered = useMemo(() => {
-    const list = posts ?? [];
-    const term = filterName.trim().toLowerCase();
-    if (!term) return list;
-    return list.filter((post: Post) => post.name.toLowerCase().includes(term));
+    return filterPostsByName(posts ?? [], filterName);
   }, [posts, filterName]);
 
   return { posts: filtered, filterName };

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface Post {
   id: number;
@@ -6,18 +6,43 @@ export interface Post {
   description: string;
 }
 
-export interface PostsState {
-  items: Post[];
+export interface PostsUiState {
+  filterName: string;
+  postToDeleteId: number | null;
 }
 
-const initialState: PostsState = {
-  items: [],
+const initialState: PostsUiState = {
+  filterName: "",
+  postToDeleteId: null,
 };
 
-export const postsSlice = createSlice({
+const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    setFilterName(state, action: PayloadAction<string>) {
+      state.filterName = action.payload;
+    },
+    clearFilter(state) {
+      state.filterName = "";
+    },
+    requestDelete(state, action: PayloadAction<number>) {
+      state.postToDeleteId = action.payload;
+    },
+    cancelDelete(state) {
+      state.postToDeleteId = null;
+    },
+  },
 });
 
+export const { setFilterName, clearFilter, requestDelete, cancelDelete } =
+  postsSlice.actions;
+
 export const postsReducer = postsSlice.reducer;
+
+export const selectFilterName = (state: { posts: PostsUiState }) =>
+  state.posts.filterName;
+export const selectPostToDeleteId = (state: { posts: PostsUiState }) =>
+  state.posts.postToDeleteId;
+export const selectHasActiveFilter = (state: { posts: PostsUiState }) =>
+  state.posts.filterName.trim().length > 0;
