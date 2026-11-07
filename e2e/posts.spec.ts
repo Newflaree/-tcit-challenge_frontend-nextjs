@@ -40,7 +40,7 @@ test("la página muestra estado vacío sin posts", async ({ page }) => {
 
   await page.goto("/");
 
-  await expect(page.getByText("No hay posts")).toBeVisible();
+  await expect(page.getByText("Todavía no hay posts")).toBeVisible();
 });
 
 test("crear un post y verlo en la lista", async ({ page }) => {
@@ -265,5 +265,5 @@ test("navegación por teclado en formulario", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Tab");
   // Just ensure no crash and page renders
-  await expect(page.getByRole("heading", { name: "Posts" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tus posts" })).toBeVisible();
 });

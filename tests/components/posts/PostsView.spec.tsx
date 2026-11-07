@@ -44,7 +44,7 @@ describe("PostsView (integración)", () => {
     render(<PostsView />, { wrapper: EmptyWrapper });
 
     await waitFor(() => {
-      expect(screen.getByText("No hay posts")).toBeInTheDocument();
+      expect(screen.getByText("Todavía no hay posts")).toBeInTheDocument();
     });
   });
 
@@ -90,6 +90,6 @@ describe("PostsView (integración)", () => {
       </Provider>
     );
     render(<PostsView />, { wrapper: W });
-    expect(screen.getByRole("heading", { name: "Posts" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Tus posts" })).toBeInTheDocument();
   });
 });
