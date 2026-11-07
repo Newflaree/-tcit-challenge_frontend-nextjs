@@ -150,4 +150,22 @@ Definida aquí y en la matriz §5; los tests funcionales llegan en HU-20. Plan:
   no compartir el cliente entre requests del servidor ni entre tests.
 - DevTools de Query (`ReactQueryDevtools`) sólo se cargan en desarrollo.
 
+### Cliente API y hooks
+
+- **Cliente API** (`src/lib/api/posts.ts`): `getPosts`, `createPost`,
+  `deletePost` con `fetch`, `Content-Type: application/json`, manejo de
+  errores con `ApiError` (status + message), parseo seguro del JSON de error
+  y soporte de `AbortSignal` en el listado.
+- **Query keys** (`src/lib/query-keys.ts`): `postKeys` centralizado con
+  `all: ["posts"]`.
+- **Hooks** (`src/hooks/`): `usePostsQuery`, `useCreatePostMutation`,
+  `useDeletePostMutation`, `useFilteredPosts`, `usePostForm`.
+- `usePostsQuery` configura `staleTime` alto, `refetchOnWindowFocus: false`,
+  `refetchOnReconnect: false`, `refetchOnMount: false` (regla "una sola
+  llamada").
+- Las mutaciones usan `setQueryData` (crear agrega al inicio, eliminar quita
+  por id) sin `invalidateQueries`.
+- `useFilteredPosts` combina el filtro de Redux con los datos de Query.
+- `usePostForm` gestiona estado, validación y submit del formulario.
+
 Las historias de usuario y el flujo de ramas están en `../docs/hu/README.md`.
