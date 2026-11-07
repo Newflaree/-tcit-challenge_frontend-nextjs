@@ -1,14 +1,21 @@
 "use client";
 
+import { useState } from "react";
+
 import { usePostsQuery } from "@/hooks/usePostsQuery";
 import { useFilteredPosts } from "@/hooks/useFilteredPosts";
+import { useDeletePostMutation } from "@/hooks/useDeletePostMutation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   setFilterName,
   clearFilter,
   selectHasActiveFilter,
+  selectPostToDeleteId,
+  requestDelete,
+  cancelDelete,
 } from "@/features/posts/postsSlice";
-import { PageHeader } from "@/components/ui/ConfirmDialog";
+import { PageHeader, ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Alert } from "@/components/ui/Alert";
 import { PostForm } from "@/components/posts/PostForm";
 import { PostFilter } from "@/components/posts/PostFilter";
 import { PostList } from "@/components/posts/PostList";
@@ -18,11 +25,52 @@ export function PostsView() {
   const { data: posts, isLoading, isError, error, refetch } = usePostsQuery();
   const { posts: filteredPosts, filterName } = useFilteredPosts();
   const hasActiveFilter = useAppSelector(selectHasActiveFilter);
+  const postToDeleteId = useAppSelector(selectPostToDeleteId);
+  const deleteMutation = useDeletePostMutation();
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const totalCount = posts?.length ?? 0;
   const filteredCount = filteredPosts.length;
   const isFilteringWithNoResults =
     hasActiveFilter && filteredCount === 0 && totalCount > 0;
+
+  const postToDelete = posts?.find((p) => p.id === postToDeleteId) ?? null;
+
+  function handleDelete(id: number) {
+    setDeleteError(null);
+    dispatch(requestDelete(id));
+  }
+
+  function handleConfirmDelete() {
+    if (postToDeleteId === null) return;
+    deleteMutation.mutate(postToDeleteId, {
+      onSuccess: () => {
+        dispatch(cancelDelete());
+        setDeleteError(null);
+      },
+      onError: (err) => {
+        const status =
+          typeof err === "object" && err !== null && "status" in err
+            ? (err as { status: number }).status
+            : undefined;
+        if (status === 404) {
+          dispatch(cancelDelete());
+          setDeleteError("El post ya no existe; se actualizó la lista.");
+        } else {
+          const message =
+            err instanceof Error ? err.message : "No se pudo eliminar el post.";
+          setDeleteError(message);
+          // keep dialog open? close to avoid stuck; but show error
+          dispatch(cancelDelete());
+        }
+      },
+    });
+  }
+
+  function handleCancelDelete() {
+    if (deleteMutation.isPending) return;
+    dispatch(cancelDelete());
+  }
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8">
@@ -30,6 +78,7 @@ export function PostsView() {
         title="Posts"
         description="Gestiona los posts del challenge."
       />
+      {deleteError ? <Alert variant="error">{deleteError}</Alert> : null}
       <section className="grid gap-6 lg:grid-cols-[360px_1fr]">
         <div className="flex flex-col gap-4">
           <PostForm />
@@ -57,6 +106,7 @@ export function PostsView() {
               : undefined
           }
           onRetry={() => refetch()}
+          onDelete={handleDelete}
           emptyTitle={
             isFilteringWithNoResults ? "Sin resultados" : "No hay posts"
           }
@@ -68,6 +118,22 @@ export function PostsView() {
         />
       </section>
       <span className="sr-only">{posts?.length ?? 0} posts cargados</span>
+
+      <ConfirmDialog
+        open={postToDeleteId !== null}
+        title="Eliminar post"
+        description={
+          postToDelete
+            ? `¿Eliminar "${postToDelete.name}"?`
+            : "¿Eliminar este post?"
+        }
+        confirmLabel="Eliminar"
+        cancelLabel="Cancelar"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        confirmLoading={deleteMutation.isPending}
+        confirmDisabled={deleteMutation.isPending}
+      />
     </main>
   );
 }

@@ -17,5 +17,18 @@ export function useDeletePostMutation() {
         return old.filter((post) => post.id !== deleted.id);
       });
     },
+    onError: (error: unknown, id: number) => {
+      // If the post no longer exists, sync the cache.
+      const status =
+        typeof error === "object" && error !== null && "status" in error
+          ? (error as { status: number }).status
+          : undefined;
+      if (status === 404) {
+        queryClient.setQueryData<Post[]>(postKeys.all, (old) => {
+          if (!old) return old;
+          return old.filter((post) => post.id !== id);
+        });
+      }
+    },
   });
 }

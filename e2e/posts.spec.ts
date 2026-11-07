@@ -110,3 +110,63 @@ test("filtrar por nombre muestra sólo coincidencias", async ({ page }) => {
   await page.getByRole("button", { name: "Limpiar filtro" }).click();
   await expect(page.getByText("Vue post")).toBeVisible();
 });
+
+test("eliminar un post y verificar que desaparece", async ({ page }) => {
+  const posts = [
+    { id: 1, name: "Post a borrar", description: "desc" },
+    { id: 2, name: "Post que queda", description: "desc" },
+  ];
+
+  await page.route("**/api/posts", async (route) => {
+    if (route.request().method() === "GET") {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(posts.filter((p) => p.id !== 999)),
+      });
+    } else {
+      await route.continue();
+    }
+  });
+
+  await page.route("**/api/posts/*", async (route) => {
+    if (route.request().method() === "DELETE") {
+      const id = Number(route.request().url().split("/").pop());
+      const idx = posts.findIndex((p) => p.id === id);
+      if (idx >= 0) posts.splice(idx, 1);
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({ id }),
+      });
+    } else {
+      await route.continue();
+    }
+  });
+
+  await page.goto("/");
+
+  await expect(page.getByText("Post a borrar")).toBeVisible();
+
+  // Click delete on the post card
+  const card = page.locator("article", { hasText: "Post a borrar" });
+  await card.getByRole("button", { name: "Eliminar" }).click();
+
+  // Confirm dialog appears with post name
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Post a borrar" }),
+  ).toBeVisible();
+
+  // Confirm
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Eliminar" })
+    .click();
+
+  // Post disappears
+  await expect(
+    page.getByRole("heading", { name: "Post a borrar" }),
+  ).not.toBeVisible();
+  await expect(page.getByText("Post que queda")).toBeVisible();
+});

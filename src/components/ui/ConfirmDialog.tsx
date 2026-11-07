@@ -10,6 +10,8 @@ interface ConfirmDialogProps {
   cancelLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
+  confirmDisabled?: boolean;
+  confirmLoading?: boolean;
   className?: string;
 }
 
@@ -21,13 +23,20 @@ export function ConfirmDialog({
   cancelLabel = "Cancelar",
   onConfirm,
   onCancel,
+  confirmDisabled = false,
+  confirmLoading = false,
   className,
 }: ConfirmDialogProps) {
   const cancelRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (open) {
+      previousFocusRef.current = document.activeElement as HTMLElement | null;
       cancelRef.current?.focus();
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus?.();
+      previousFocusRef.current = null;
     }
   }, [open]);
 
@@ -85,9 +94,10 @@ export function ConfirmDialog({
           <button
             type="button"
             onClick={onConfirm}
-            className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600"
+            disabled={confirmDisabled || confirmLoading}
+            className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {confirmLabel}
+            {confirmLoading ? "Eliminando..." : confirmLabel}
           </button>
         </div>
       </div>
