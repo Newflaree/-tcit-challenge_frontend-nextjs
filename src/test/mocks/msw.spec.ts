@@ -34,10 +34,10 @@ describe("MSW mockea la API sin backend real", () => {
     await expect(response.json()).resolves.toEqual(createdPostFixture);
   });
 
-  it("responde 204 al eliminar un post existente", async () => {
+  it("responde 200 al eliminar un post existente", async () => {
     const response = await fetch(`${postsUrl}/1`, { method: "DELETE" });
 
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(200);
   });
 
   it("responde 404 al eliminar un post inexistente", async () => {

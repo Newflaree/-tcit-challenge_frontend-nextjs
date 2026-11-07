@@ -30,9 +30,9 @@ export const handlers = [
   }),
 
   http.delete(postByIdUrl, ({ params }) => {
-    const exists = postsFixture.some((post) => String(post.id) === params.id);
+    const post = postsFixture.find((p) => String(p.id) === params.id);
 
-    if (!exists) {
+    if (!post) {
       return HttpResponse.json(
         {
           ...notFoundErrorFixture,
@@ -42,7 +42,7 @@ export const handlers = [
       );
     }
 
-    return new HttpResponse(null, { status: 204 });
+    return HttpResponse.json(post, { status: 200 });
   }),
 ];
 
