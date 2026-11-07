@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 
 interface ConfirmDialogProps {
@@ -60,45 +61,40 @@ export function ConfirmDialog({
       aria-modal="true"
       aria-labelledby="confirm-dialog-title"
       aria-describedby={description ? "confirm-dialog-desc" : undefined}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/40 p-4 backdrop-blur-sm dark:bg-zinc-950/70"
     >
       <div
         className={cn(
-          "w-full max-w-md rounded-lg bg-white p-6 shadow-lg dark:bg-zinc-900",
+          "w-full max-w-md rounded-2xl border border-zinc-200/70 bg-white p-6 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900",
           className,
         )}
       >
         <h2
           id="confirm-dialog-title"
-          className="text-lg font-semibold text-zinc-900 dark:text-zinc-100"
+          className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-100"
         >
           {title}
         </h2>
         {description ? (
           <p
             id="confirm-dialog-desc"
-            className="mt-2 text-sm text-zinc-600 dark:text-zinc-300"
+            className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400"
           >
             {description}
           </p>
         ) : null}
         <div className="mt-6 flex justify-end gap-2">
-          <button
-            ref={cancelRef}
-            type="button"
-            onClick={onCancel}
-            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
-          >
+          <Button ref={cancelRef} variant="secondary" onClick={onCancel}>
             {cancelLabel}
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="danger"
             onClick={onConfirm}
-            disabled={confirmDisabled || confirmLoading}
-            className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={confirmDisabled}
+            loading={confirmLoading}
           >
-            {confirmLoading ? "Eliminando..." : confirmLabel}
-          </button>
+            {confirmLabel}
+          </Button>
         </div>
       </div>
     </div>
@@ -121,16 +117,18 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        "flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between",
+        "flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between",
         className,
       )}
     >
       <div>
-        <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
+        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
           {title}
         </h1>
         {description ? (
-          <p className="text-sm text-zinc-500">{description}</p>
+          <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+            {description}
+          </p>
         ) : null}
       </div>
       {action ? <div>{action}</div> : null}

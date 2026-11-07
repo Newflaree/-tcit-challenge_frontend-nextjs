@@ -1,13 +1,24 @@
 import { cn } from "@/lib/cn";
+import {
+  AlertTriangleIcon,
+  CheckCircleIcon,
+  InboxIcon,
+} from "@/components/ui/icons";
 
 type AlertVariant = "info" | "success" | "error";
 
 const alertClasses: Record<AlertVariant, string> = {
-  info: "border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-200",
+  info: "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300",
   success:
-    "border-green-200 bg-green-50 text-green-800 dark:border-green-900 dark:bg-green-950 dark:text-green-200",
+    "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-300",
   error:
-    "border-red-200 bg-red-50 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200",
+    "border-red-200 bg-red-50 text-red-800 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300",
+};
+
+const alertIconClasses: Record<AlertVariant, string> = {
+  info: "text-zinc-400",
+  success: "text-emerald-500",
+  error: "text-red-500",
 };
 
 interface AlertProps {
@@ -24,18 +35,24 @@ export function Alert({
   className,
 }: AlertProps) {
   const role = variant === "error" ? "alert" : "status";
+  const Icon = variant === "error" ? AlertTriangleIcon : CheckCircleIcon;
   return (
     <div
       role={role}
       aria-live={variant === "error" ? "assertive" : "polite"}
       className={cn(
-        "rounded-md border px-4 py-3 text-sm",
+        "flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-xs",
         alertClasses[variant],
         className,
       )}
     >
-      {title ? <p className="mb-1 font-semibold">{title}</p> : null}
-      <div>{children}</div>
+      <Icon
+        className={cn("mt-0.5 h-4 w-4 shrink-0", alertIconClasses[variant])}
+      />
+      <div>
+        {title ? <p className="font-semibold">{title}</p> : null}
+        <div className={title ? "mt-0.5" : undefined}>{children}</div>
+      </div>
     </div>
   );
 }
@@ -56,17 +73,22 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-2 rounded-md border border-dashed border-zinc-300 px-6 py-12 text-center dark:border-zinc-700",
+        "flex flex-col items-center justify-center gap-1 rounded-2xl border border-dashed border-zinc-300 px-6 py-16 text-center dark:border-zinc-800",
         className,
       )}
     >
-      <p className="text-base font-medium text-zinc-700 dark:text-zinc-200">
+      <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-zinc-100 text-zinc-400 dark:bg-zinc-900 dark:text-zinc-500">
+        <InboxIcon className="h-5 w-5" />
+      </span>
+      <p className="text-[15px] font-semibold tracking-tight text-zinc-800 dark:text-zinc-200">
         {title}
       </p>
       {description ? (
-        <p className="max-w-md text-sm text-zinc-500">{description}</p>
+        <p className="mt-1 max-w-sm text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+          {description}
+        </p>
       ) : null}
-      {action ? <div className="mt-2">{action}</div> : null}
+      {action ? <div className="mt-4">{action}</div> : null}
     </div>
   );
 }
@@ -80,7 +102,7 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({
-  title = "Ocurrió un error",
+  title = "No pudimos cargar los posts",
   message,
   onRetry,
   retryLabel = "Reintentar",
@@ -90,21 +112,24 @@ export function ErrorState({
     <div
       role="alert"
       className={cn(
-        "flex flex-col items-center justify-center gap-2 rounded-md border border-red-200 bg-red-50 px-6 py-12 text-center dark:border-red-900 dark:bg-red-950",
+        "flex flex-col items-center justify-center gap-1 rounded-2xl border border-red-200/70 bg-red-50/50 px-6 py-16 text-center dark:border-red-900/50 dark:bg-red-950/20",
         className,
       )}
     >
-      <p className="text-base font-medium text-red-800 dark:text-red-200">
+      <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-red-100 text-red-500 dark:bg-red-950 dark:text-red-400">
+        <AlertTriangleIcon className="h-5 w-5" />
+      </span>
+      <p className="text-[15px] font-semibold tracking-tight text-red-900 dark:text-red-200">
         {title}
       </p>
-      <p className="max-w-md text-sm text-red-700 dark:text-red-300">
+      <p className="mt-1 max-w-sm text-sm leading-relaxed text-red-700/80 dark:text-red-300/80">
         {message}
       </p>
       {onRetry ? (
         <button
           type="button"
           onClick={onRetry}
-          className="mt-2 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
+          className="mt-5 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
         >
           {retryLabel}
         </button>
