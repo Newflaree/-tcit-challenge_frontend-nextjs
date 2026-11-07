@@ -1,4 +1,4 @@
 export { PostFilter } from "./PostFilter";
-export { PostForm, type PostFormProps, type PostFormValues } from "./PostForm";
+export { PostForm } from "./PostForm";
 export { PostList, type PostListPost, type PostListProps } from "./PostList";
 export { PostsView } from "./PostsView";

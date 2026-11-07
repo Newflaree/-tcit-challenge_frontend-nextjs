@@ -1,76 +1,57 @@
 "use client";
 
-import { useState } from "react";
+import { useRef } from "react";
 
 import { Button } from "@/components/ui/Button";
 import { TextareaField, TextField } from "@/components/ui/FormField";
+import { usePostForm } from "@/hooks/usePostForm";
 
-export interface PostFormValues {
-  name: string;
-  description: string;
-}
+export function PostForm() {
+  const form = usePostForm();
+  const submittingRef = useRef(false);
 
-export interface PostFormProps {
-  onSubmit: (values: PostFormValues) => void;
-  loading?: boolean;
-  error?: string;
-}
-
-export function PostForm({ onSubmit, loading = false, error }: PostFormProps) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [nameError, setNameError] = useState<string | undefined>();
-  const [descriptionError, setDescriptionError] = useState<
-    string | undefined
-  >();
-
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    let valid = true;
-    if (!name.trim()) {
-      setNameError("El nombre es obligatorio");
-      valid = false;
-    } else if (name.trim().length > 120) {
-      setNameError("El nombre no debe exceder 120 caracteres");
-      valid = false;
-    } else {
-      setNameError(undefined);
+  async function handleSubmit() {
+    if (submittingRef.current) return;
+    submittingRef.current = true;
+    try {
+      await form.submit();
+    } finally {
+      submittingRef.current = false;
     }
-    if (!description.trim()) {
-      setDescriptionError("La descripción es obligatoria");
-      valid = false;
-    } else if (description.trim().length > 1000) {
-      setDescriptionError("La descripción no debe exceder 1000 caracteres");
-      valid = false;
-    } else {
-      setDescriptionError(undefined);
-    }
-    if (!valid) return;
-    onSubmit({ name: name.trim(), description: description.trim() });
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      {error ? (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void handleSubmit();
+      }}
+      className="flex flex-col gap-4"
+    >
+      {form.isError ? (
         <p role="alert" className="text-sm text-red-600">
-          {error}
+          No se pudo crear el post. Inténtalo de nuevo.
         </p>
       ) : null}
       <TextField
         label="Nombre"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        error={nameError}
+        value={form.name}
+        onChange={(e) => form.setName(e.target.value)}
+        error={form.errors.name}
         required
       />
       <TextareaField
         label="Descripción"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        error={descriptionError}
+        value={form.description}
+        onChange={(e) => form.setDescription(e.target.value)}
+        error={form.errors.description}
         required
       />
-      <Button type="submit" loading={loading}>
+      <Button
+        type="submit"
+        loading={form.isPending}
+        onClick={() => void handleSubmit()}
+      >
         Crear post
       </Button>
     </form>
