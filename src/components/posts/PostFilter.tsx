@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/cn";
 import { TextField } from "@/components/ui/FormField";
 import { Button } from "@/components/ui/Button";
 import { SearchIcon, XMarkIcon } from "@/components/ui/icons";
@@ -20,15 +21,17 @@ export function PostFilter({
   const hasValue = value.trim().length > 0;
 
   return (
-    <div className={className}>
+    <div className={cn("flex items-center gap-2", className)}>
       <TextField
         label="Buscar por nombre"
+        srLabel
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Filtrar por nombre..."
         id="post-filter"
         type="search"
         icon={<SearchIcon className="h-4 w-4" />}
+        className="flex-1"
       />
       {hasValue ? (
         <Button
@@ -36,10 +39,9 @@ export function PostFilter({
           variant="ghost"
           onClick={() => (onClear ? onClear() : onChange(""))}
           aria-label="Limpiar filtro"
-          className="mt-2 px-2 py-1 text-xs"
+          className="shrink-0 px-2"
         >
-          <XMarkIcon className="h-3.5 w-3.5" />
-          Limpiar filtro
+          <XMarkIcon className="h-4 w-4" />
         </Button>
       ) : null}
     </div>

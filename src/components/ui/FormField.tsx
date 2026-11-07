@@ -8,12 +8,26 @@ interface FormFieldProps {
   error?: string;
   hint?: string;
   required?: boolean;
+  /** Oculta el label visualmente pero lo mantiene para lectores de pantalla. */
+  srLabel?: boolean;
   children: React.ReactNode;
   className?: string;
 }
 
 export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
-  ({ label, htmlFor, error, hint, required, children, className }, ref) => {
+  (
+    {
+      label,
+      htmlFor,
+      error,
+      hint,
+      required,
+      srLabel = false,
+      children,
+      className,
+    },
+    ref,
+  ) => {
     const errorId = error && htmlFor ? `${htmlFor}-error` : undefined;
     const hintId = hint && htmlFor ? `${htmlFor}-hint` : undefined;
 
@@ -21,7 +35,10 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
       <div ref={ref} className={cn("flex flex-col gap-1.5", className)}>
         <label
           htmlFor={htmlFor}
-          className="text-[13px] font-medium text-zinc-700 dark:text-zinc-300"
+          className={cn(
+            "text-[13px] font-medium text-zinc-700 dark:text-zinc-300",
+            srLabel && "sr-only",
+          )}
         >
           {label}
           {required ? (
@@ -69,10 +86,11 @@ export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputEleme
   error?: string;
   hint?: string;
   icon?: React.ReactNode;
+  srLabel?: boolean;
 }
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ label, error, hint, icon, id, className, ...rest }, ref) => {
+  ({ label, error, hint, icon, id, className, srLabel, ...rest }, ref) => {
     const inputId = id ?? label.toLowerCase().replace(/\s+/g, "-");
     const input = (
       <input
@@ -101,6 +119,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         error={error}
         hint={hint}
         required={rest.required}
+        srLabel={srLabel}
       >
         {icon ? (
           <div className="relative">
@@ -123,12 +142,13 @@ export interface TextareaFieldProps extends React.TextareaHTMLAttributes<HTMLTex
   label: string;
   error?: string;
   hint?: string;
+  srLabel?: boolean;
 }
 
 export const TextareaField = forwardRef<
   HTMLTextAreaElement,
   TextareaFieldProps
->(({ label, error, hint, id, className, ...rest }, ref) => {
+>(({ label, error, hint, id, className, srLabel, ...rest }, ref) => {
   const inputId = id ?? label.toLowerCase().replace(/\s+/g, "-");
   return (
     <FormField
@@ -137,6 +157,7 @@ export const TextareaField = forwardRef<
       error={error}
       hint={hint}
       required={rest.required}
+      srLabel={srLabel}
     >
       <textarea
         ref={ref}
