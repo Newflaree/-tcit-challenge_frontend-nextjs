@@ -10,7 +10,7 @@ export function PostForm() {
   const form = usePostForm();
 
   return (
-    <section className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-xs sm:p-5 dark:border-zinc-800 dark:bg-zinc-900">
+    <section className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm transition focus-within:border-zinc-300 focus-within:shadow-md sm:p-5 dark:border-zinc-800 dark:bg-zinc-900 dark:focus-within:border-zinc-700">
       {form.isError ? (
         <div className="mb-4">
           <Alert variant="error">

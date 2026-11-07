@@ -29,25 +29,35 @@ export function PostCard({
 }: PostCardProps) {
   return (
     <article
-      className={cn("flex gap-3 px-1 py-5 first:pt-0 last:pb-0", className)}
+      className={cn(
+        "group flex gap-3.5 px-1 py-5 first:pt-2 last:pb-2 transition-colors",
+        className,
+      )}
     >
       <span
         aria-hidden="true"
-        className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-200 text-xs font-semibold text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+        className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-zinc-800 to-zinc-600 text-xs font-semibold text-zinc-50 ring-1 ring-inset ring-zinc-900/10 dark:from-zinc-100 dark:to-zinc-300 dark:text-zinc-900 dark:ring-white/10"
       >
         {initials(name)}
       </span>
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="truncate text-[14px] font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h3 className="truncate text-[14px] font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
               {name}
             </h3>
-            <p className="text-[11px] tabular-nums text-zinc-400 dark:text-zinc-500">
-              #{id}
+            <p className="mt-0.5 inline-flex items-center gap-1.5 text-[11px] tabular-nums text-zinc-400 dark:text-zinc-500">
+              <span className="font-mono">#{id}</span>
+              <span
+                aria-hidden="true"
+                className="text-zinc-300 dark:text-zinc-700"
+              >
+                ·
+              </span>
+              <span>en el muro</span>
             </p>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex shrink-0 items-center gap-1 opacity-70 transition-opacity group-hover:opacity-100">
             {onEdit ? (
               <button
                 type="button"
@@ -69,7 +79,7 @@ export function PostCard({
             ) : null}
           </div>
         </div>
-        <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+        <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
           {description}
         </p>
       </div>

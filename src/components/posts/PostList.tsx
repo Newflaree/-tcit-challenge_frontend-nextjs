@@ -45,7 +45,7 @@ export function PostList({
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 shadow-xs divide-y divide-zinc-100 dark:divide-zinc-800/70 dark:border-zinc-800 dark:bg-zinc-900 sm:px-6">
+    <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 shadow-sm divide-y divide-zinc-100 dark:divide-zinc-800/70 dark:border-zinc-800 dark:bg-zinc-900 sm:px-6">
       {posts.map((post) => (
         <PostCard
           key={post.id}

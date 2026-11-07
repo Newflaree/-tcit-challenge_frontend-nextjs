@@ -17,20 +17,28 @@ html {
 
 body {
   @apply bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
+  background-image:
+    radial-gradient(1200px 600px at 50% -10%, rgb(0 0 0 / 0.035), transparent 70%);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image:
+      radial-gradient(1200px 600px at 50% -10%, rgb(255 255 255 / 0.03), transparent 70%);
+  }
 }
 
 ::selection {
   @apply bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900;
 }
 
-/* Scrollbars discretos, acorde al estilo minimalista */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-zinc-300) transparent;
+  scrollbar-color: rgb(0 0 0 / 0.15) transparent;
 }
 
 @media (prefers-color-scheme: dark) {
   * {
-    scrollbar-color: var(--color-zinc-700) transparent;
+    scrollbar-color: rgb(255 255 255 / 0.15) transparent;
   }
 }
