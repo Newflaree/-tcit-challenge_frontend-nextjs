@@ -14,17 +14,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TCIT Posts",
-  description: "Aplicación de Posts con Next.js, Redux y NestJS",
+  title: "TCIT · Posts",
+  description:
+    "Demo full-stack de un muro de posts: crea, filtra y elimina publicaciones al instante, sin recargar la página. Next.js + Redux + TanStack Query sobre una API NestJS + PostgreSQL.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col font-sans">
         <Providers>{children}</Providers>
       </body>
     </html>
