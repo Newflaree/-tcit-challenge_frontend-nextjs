@@ -2,7 +2,7 @@ import { renderHook, act } from "@testing-library/react";
 
 import { usePostForm } from "@/hooks/usePostForm";
 
-jest.mock("./useCreatePostMutation", () => ({
+jest.mock("../../src/hooks/useCreatePostMutation", () => ({
   useCreatePostMutation: () => ({
     mutateAsync: jest
       .fn()

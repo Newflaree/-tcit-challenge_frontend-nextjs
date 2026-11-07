@@ -4,9 +4,9 @@ import {
   createdPostFixture,
   newPostFixture,
   postsFixture,
-} from "../fixtures/posts";
-import { errorHandlers } from "./handlers";
-import { server } from "./server";
+} from "@/test/fixtures/posts";
+import { errorHandlers } from "@/test/mocks/handlers";
+import { server } from "@/test/mocks/server";
 
 const postsUrl = `${API_URL}/posts`;
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { render, screen, userEvent, within } from "./test-utils";
+import { render, screen, userEvent, within } from "@/test/test-utils";
 
 /**
  * Prueba de harness de React Testing Library + jest-dom + user-event.
