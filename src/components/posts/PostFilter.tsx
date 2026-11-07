@@ -2,6 +2,7 @@
 
 import { TextField } from "@/components/ui/FormField";
 import { Button } from "@/components/ui/Button";
+import { SearchIcon, XMarkIcon } from "@/components/ui/icons";
 
 export interface PostFilterProps {
   value: string;
@@ -21,19 +22,23 @@ export function PostFilter({
   return (
     <div className={className}>
       <TextField
-        label="Filtrar posts por nombre"
+        label="Buscar por nombre"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Filtrar por nombre..."
         id="post-filter"
+        type="search"
+        icon={<SearchIcon className="h-4 w-4" />}
       />
       {hasValue ? (
         <Button
           type="button"
-          variant="secondary"
+          variant="ghost"
           onClick={() => (onClear ? onClear() : onChange(""))}
           aria-label="Limpiar filtro"
+          className="mt-2 px-2 py-1 text-xs"
         >
+          <XMarkIcon className="h-3.5 w-3.5" />
           Limpiar filtro
         </Button>
       ) : null}

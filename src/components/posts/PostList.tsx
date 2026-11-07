@@ -1,5 +1,4 @@
-import { EmptyState } from "@/components/ui/Alert";
-import { ErrorState } from "@/components/ui/Alert";
+import { EmptyState, ErrorState } from "@/components/ui/Alert";
 import { Spinner } from "@/components/ui/Spinner";
 import { PostCard } from "@/components/ui/PostCard";
 
@@ -25,13 +24,14 @@ export function PostList({
   error,
   onRetry,
   onDelete,
-  emptyTitle = "No hay posts",
-  emptyDescription = "Crea el primero para empezar.",
+  emptyTitle = "Todavía no hay posts",
+  emptyDescription = "Estrena el muro: crea tu primer post en el panel de la izquierda y aparecerá aquí al instante.",
 }: PostListProps) {
   if (loading) {
     return (
-      <div className="flex justify-center py-12">
+      <div className="flex flex-col items-center justify-center gap-3 py-24 text-zinc-400">
         <Spinner label="Cargando posts" />
+        <p className="text-xs font-medium">Preparando el muro…</p>
       </div>
     );
   }
@@ -45,7 +45,7 @@ export function PostList({
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
       {posts.map((post) => (
         <PostCard
           key={post.id}
