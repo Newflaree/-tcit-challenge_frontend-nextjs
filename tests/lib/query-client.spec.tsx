@@ -2,8 +2,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 
-import { createQueryClient } from "@/lib/query-client";
-import { store } from "@/store";
+import { createQueryClient } from "@/shared/lib/query-client";
+import { store } from "@/shared/store";
 
 describe("createQueryClient", () => {
   it("aplica los defaults explícitos de la estrategia", () => {

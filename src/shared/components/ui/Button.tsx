@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-import { cn } from "@/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import { Spinner } from "./Spinner";
 
 type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";

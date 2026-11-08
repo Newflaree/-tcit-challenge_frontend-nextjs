@@ -2,10 +2,10 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { createQueryClient } from "@/lib/query-client";
+import { createQueryClient } from "@/shared/lib/query-client";
 import { PostsView } from "@/posts/presentation/views/PostsView";
 import { Provider } from "react-redux";
-import { store } from "@/store";
+import { store } from "@/shared/store";
 import { server } from "@/test/mocks/server";
 import { postsFixture } from "@/test/fixtures/posts";
 
@@ -55,7 +55,7 @@ describe("PostsView (integración)", () => {
 
   it("muestra ErrorState y reintento cuando falla la petición", async () => {
     const { http, HttpResponse } = await import("msw");
-    const { API_URL } = await import("@/config/env");
+    const { API_URL } = await import("@/shared/config/env");
     server.use(
       http.get(`${API_URL}/posts`, () =>
         HttpResponse.json(
@@ -152,7 +152,7 @@ describe("PostsView (integración)", () => {
 
   it("muestra error si la eliminación falla con 404", async () => {
     const { http, HttpResponse } = await import("msw");
-    const { API_URL } = await import("@/config/env");
+    const { API_URL } = await import("@/shared/config/env");
     server.use(
       http.delete(`${API_URL}/posts/:id`, () =>
         HttpResponse.json(
@@ -247,7 +247,7 @@ describe("PostsView (integración)", () => {
 
   it("muestra error si la eliminación falla por red", async () => {
     const { http, HttpResponse } = await import("msw");
-    const { API_URL } = await import("@/config/env");
+    const { API_URL } = await import("@/shared/config/env");
     server.use(
       http.delete(`${API_URL}/posts/:id`, () => HttpResponse.error()),
     );

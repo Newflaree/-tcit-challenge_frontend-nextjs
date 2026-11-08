@@ -33,7 +33,7 @@ const config: Config = {
       lines: 100,
       statements: 100,
     },
-    "./src/config/": {
+    "./src/shared/config/": {
       branches: 100,
       functions: 100,
       lines: 100,
@@ -45,13 +45,13 @@ const config: Config = {
       lines: 100,
       statements: 100,
     },
-    "./src/lib/": {
+    "./src/shared/": {
       branches: 100,
       functions: 100,
       lines: 100,
       statements: 100,
     },
-    "./src/components/ui/": {
+    "./src/shared/components/ui/": {
       branches: 100,
       functions: 100,
       lines: 100,

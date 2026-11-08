@@ -1,9 +1,9 @@
 "use client";
 
-import { cn } from "@/lib/cn";
-import { TextField } from "@/components/ui/FormField";
-import { Button } from "@/components/ui/Button";
-import { SearchIcon, XMarkIcon } from "@/components/ui/icons";
+import { cn } from "@/shared/lib/cn";
+import { TextField } from "@/shared/components/ui/FormField";
+import { Button } from "@/shared/components/ui/Button";
+import { SearchIcon, XMarkIcon } from "@/shared/components/ui/icons";
 
 export interface PostFilterProps {
   value: string;

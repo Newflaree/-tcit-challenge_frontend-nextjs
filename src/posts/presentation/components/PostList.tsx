@@ -1,6 +1,6 @@
-import { EmptyState, ErrorState } from "@/components/ui/Alert";
-import { Spinner } from "@/components/ui/Spinner";
-import { PostCard } from "@/components/ui/PostCard";
+import { EmptyState, ErrorState } from "@/shared/components/ui/Alert";
+import { Spinner } from "@/shared/components/ui/Spinner";
+import { PostCard } from "@/shared/components/ui/PostCard";
 
 export interface PostListPost {
   id: number;

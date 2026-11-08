@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { EmptyState, ErrorState } from "@/components/ui/Alert";
+import { EmptyState, ErrorState } from "@/shared/components/ui/Alert";
 
 describe("EmptyState", () => {
   it("muestra el título y la descripción", () => {

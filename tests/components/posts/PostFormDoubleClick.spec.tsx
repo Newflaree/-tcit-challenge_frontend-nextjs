@@ -2,10 +2,10 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { createQueryClient } from "@/lib/query-client";
+import { createQueryClient } from "@/shared/lib/query-client";
 import { PostForm } from "@/posts/presentation/components/PostForm";
 import { Provider } from "react-redux";
-import { store } from "@/store";
+import { store } from "@/shared/store";
 import { server } from "@/test/mocks/server";
 
 function Wrapper({ children }: { children: React.ReactNode }) {

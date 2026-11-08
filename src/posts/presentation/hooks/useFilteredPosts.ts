@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector } from "@/shared/store/hooks";
 import { selectFilterName } from "@/posts/presentation/store/postsSlice";
 import { usePostsQuery } from "@/posts/presentation/hooks/usePostsQuery";
 import { filterPostsByName } from "@/posts/application/filter-posts";

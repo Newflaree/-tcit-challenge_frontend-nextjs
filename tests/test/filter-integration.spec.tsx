@@ -2,13 +2,13 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { createQueryClient } from "@/lib/query-client";
+import { createQueryClient } from "@/shared/lib/query-client";
 import { PostFilter } from "@/posts/presentation/components/PostFilter";
 import { PostList } from "@/posts/presentation/components/PostList";
 import { Provider } from "react-redux";
-import { store } from "@/store";
+import { store } from "@/shared/store";
 import { setFilterName } from "@/posts/presentation/store/postsSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/shared/store/hooks";
 import { useFilteredPosts } from "@/posts/presentation/hooks/useFilteredPosts";
 
 function FilteredList() {

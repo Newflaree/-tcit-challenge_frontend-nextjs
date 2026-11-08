@@ -1,5 +1,5 @@
-import { cn } from "@/lib/cn";
-import { TrashIcon } from "@/components/ui/icons";
+import { cn } from "@/shared/lib/cn";
+import { TrashIcon } from "@/shared/components/ui/icons";
 
 export interface PostCardProps {
   id: number;

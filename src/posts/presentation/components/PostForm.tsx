@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
-import { TextareaField, TextField } from "@/components/ui/FormField";
-import { Alert } from "@/components/ui/Alert";
-import { PencilIcon } from "@/components/ui/icons";
+import { Button } from "@/shared/components/ui/Button";
+import { TextareaField, TextField } from "@/shared/components/ui/FormField";
+import { Alert } from "@/shared/components/ui/Alert";
+import { PencilIcon } from "@/shared/components/ui/icons";
 import { usePostForm } from "@/posts/presentation/hooks/usePostForm";
 
 export function PostForm() {

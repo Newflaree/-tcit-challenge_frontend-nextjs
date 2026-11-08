@@ -1,9 +1,9 @@
-import { cn } from "@/lib/cn";
+import { cn } from "@/shared/lib/cn";
 import {
   AlertTriangleIcon,
   CheckCircleIcon,
   InboxIcon,
-} from "@/components/ui/icons";
+} from "@/shared/components/ui/icons";
 
 type AlertVariant = "info" | "success" | "error";
 

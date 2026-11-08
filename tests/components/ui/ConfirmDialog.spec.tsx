@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { ConfirmDialog, PageHeader } from "@/components/ui/ConfirmDialog";
+import { ConfirmDialog, PageHeader } from "@/shared/components/ui/ConfirmDialog";
 
 describe("ConfirmDialog", () => {
   it("no renderiza cuando open es false", () => {

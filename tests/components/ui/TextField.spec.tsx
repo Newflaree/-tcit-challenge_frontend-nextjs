@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { TextareaField, TextField } from "@/components/ui/FormField";
+import { TextareaField, TextField } from "@/shared/components/ui/FormField";
 
 describe("TextField", () => {
   it("asocia label, input y error", () => {

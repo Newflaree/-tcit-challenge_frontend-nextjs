@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { PostCard } from "@/components/ui/PostCard";
+import { PostCard } from "@/shared/components/ui/PostCard";
 
 describe("PostCard", () => {
   it("renderiza nombre, descripción y id", () => {

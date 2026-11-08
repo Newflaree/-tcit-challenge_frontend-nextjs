@@ -1,7 +1,7 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 
-import { createQueryClient } from "@/lib/query-client";
+import { createQueryClient } from "@/shared/lib/query-client";
 import { usePostsQuery } from "@/posts/presentation/hooks/usePostsQuery";
 import { useCreatePostMutation } from "@/posts/presentation/hooks/useCreatePostMutation";
 import { useDeletePostMutation } from "@/posts/presentation/hooks/useDeletePostMutation";
@@ -142,7 +142,7 @@ describe("Regla: una sola llamada al listado", () => {
 
   it("eliminar 404 sin caché no rompe la UI", async () => {
     const { server } = await import("@/test/mocks/server");
-    const { API_URL } = await import("@/config/env");
+    const { API_URL } = await import("@/shared/config/env");
     const { http, HttpResponse } = await import("msw");
     server.use(
       http.delete(`${API_URL}/posts/:id`, () =>
@@ -165,7 +165,7 @@ describe("Regla: una sola llamada al listado", () => {
 
   it("eliminar con error de red mantiene el post en la caché", async () => {
     const { http, HttpResponse } = await import("msw");
-    const { API_URL } = await import("@/config/env");
+    const { API_URL } = await import("@/shared/config/env");
     const { server } = await import("@/test/mocks/server");
     server.use(
       http.delete(`${API_URL}/posts/:id`, () => HttpResponse.error()),

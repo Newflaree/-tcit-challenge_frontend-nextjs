@@ -5,7 +5,7 @@ import { useState } from "react";
 import { usePostsQuery } from "@/posts/presentation/hooks/usePostsQuery";
 import { useFilteredPosts } from "@/posts/presentation/hooks/useFilteredPosts";
 import { useDeletePostMutation } from "@/posts/presentation/hooks/useDeletePostMutation";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/shared/store/hooks";
 import {
   setFilterName,
   clearFilter,
@@ -14,8 +14,11 @@ import {
   requestDelete,
   cancelDelete,
 } from "@/posts/presentation/store/postsSlice";
-import { PageHeader, ConfirmDialog } from "@/components/ui/ConfirmDialog";
-import { Alert } from "@/components/ui/Alert";
+import {
+  PageHeader,
+  ConfirmDialog,
+} from "@/shared/components/ui/ConfirmDialog";
+import { Alert } from "@/shared/components/ui/Alert";
 import { PostForm } from "@/posts/presentation/components/PostForm";
 import { PostFilter } from "@/posts/presentation/components/PostFilter";
 import { PostList } from "@/posts/presentation/components/PostList";

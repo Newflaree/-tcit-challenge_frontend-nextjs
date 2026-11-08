@@ -6,8 +6,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "react-redux";
 
-import { createQueryClient } from "@/lib/query-client";
-import { store } from "@/store";
+import { createQueryClient } from "@/shared/lib/query-client";
+import { store } from "@/shared/store";
 
 export function Providers({ children }: { children: ReactNode }) {
   // Instancia única por request/render: evita compartir el QueryClient entre

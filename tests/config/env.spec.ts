@@ -9,7 +9,7 @@ async function loadApiUrl(value: string | undefined): Promise<string> {
   }
 
   jest.resetModules();
-  const { API_URL } = await import("@/config/env");
+  const { API_URL } = await import("@/shared/config/env");
 
   return API_URL;
 }

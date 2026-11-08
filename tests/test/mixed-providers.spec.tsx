@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 
-import { createQueryClient } from "@/lib/query-client";
-import { useAppSelector } from "@/store/hooks";
-import { store } from "@/store";
+import { createQueryClient } from "@/shared/lib/query-client";
+import { useAppSelector } from "@/shared/store/hooks";
+import { store } from "@/shared/store";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 
