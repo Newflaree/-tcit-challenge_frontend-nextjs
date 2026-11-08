@@ -1,6 +1,6 @@
 export function PostsHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-zinc-900 bg-[#faf9f6]/95 backdrop-blur-md dark:border-zinc-100 dark:bg-zinc-950/95">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-zinc-300/70 bg-[#faf9f6]/95 backdrop-blur-md dark:border-zinc-700/70 dark:bg-zinc-950/95">
       <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-4 sm:px-6">
         <div className="flex items-baseline gap-2">
           <h1 className="font-serif text-xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">

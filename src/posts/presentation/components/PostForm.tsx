@@ -10,7 +10,7 @@ export function PostForm() {
   const form = usePostForm();
 
   return (
-    <section className="border border-zinc-300/80 bg-[#fdfdfc] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] dark:border-zinc-800 dark:bg-zinc-900">
+    <section className="border border-zinc-300/80 bg-[#fdfdfc] p-5 rounded-md shadow-[0_1px_2px_rgba(0,0,0,0.04)] dark:border-zinc-800 dark:bg-zinc-900">
       {form.isError ? (
         <div className="mb-4">
           <Alert variant="error">
@@ -42,7 +42,7 @@ export function PostForm() {
       >
         <span
           aria-hidden="true"
-          className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-zinc-900 text-[#faf9f6] dark:bg-zinc-100 dark:text-zinc-900"
+          className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#020381] text-[#faf9f6] dark:bg-zinc-100 dark:text-zinc-900"
         >
           <PencilIcon className="h-4 w-4" />
         </span>

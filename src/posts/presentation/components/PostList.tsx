@@ -45,7 +45,7 @@ export function PostList({
   }
 
   return (
-    <div className="border border-zinc-300/80 bg-[#fdfdfc] px-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] dark:border-zinc-800 dark:bg-zinc-900 sm:px-6">
+    <div className="border border-zinc-300/80 bg-[#fdfdfc] px-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] rounded-md dark:border-zinc-800 dark:bg-zinc-900 sm:px-6">
       {posts.map((post) => (
         <PostCard
           key={post.id}

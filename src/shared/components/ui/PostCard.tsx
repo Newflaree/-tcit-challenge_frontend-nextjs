@@ -36,7 +36,7 @@ export function PostCard({
     >
       <span
         aria-hidden="true"
-        className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-zinc-900 font-serif text-sm font-bold text-[#faf9f6] dark:bg-zinc-100 dark:text-zinc-900"
+        className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-[#020381] font-serif text-sm font-bold text-[#faf9f6] dark:bg-zinc-100 dark:text-zinc-900"
       >
         {initials(name)}
       </span>

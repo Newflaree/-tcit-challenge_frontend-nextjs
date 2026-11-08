@@ -41,7 +41,7 @@ export function ConfirmDialog({
     >
       <div
         className={cn(
-          "w-full max-w-md border border-zinc-300 bg-[#fdfdfc] p-6 shadow-xl dark:border-zinc-700 dark:bg-zinc-900",
+          "w-full max-w-md border border-zinc-300 bg-[#fdfdfc] p-6 shadow-xl rounded-md dark:border-zinc-700 dark:bg-zinc-900",
           className,
         )}
       >

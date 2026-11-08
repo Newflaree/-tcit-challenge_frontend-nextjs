@@ -12,7 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-zinc-900 text-[#faf9f6] hover:bg-zinc-700 active:bg-zinc-950 focus-visible:ring-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white dark:focus-visible:ring-zinc-100",
+    "bg-[#020381] text-[#faf9f6] hover:bg-[#0a182e] active:bg-[#07111f] focus-visible:ring-[#020381] dark:bg-[#00d084] dark:text-[#07111f] dark:hover:bg-[#00d082] dark:focus-visible:ring-[#00d084]",
   secondary:
     "border border-zinc-400 bg-transparent text-zinc-800 hover:border-zinc-600 hover:bg-zinc-100/70 focus-visible:ring-zinc-500 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-zinc-500 dark:hover:bg-zinc-800/60",
   danger:
