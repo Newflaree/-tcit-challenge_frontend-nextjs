@@ -9,7 +9,7 @@ Redux Toolkit y Tailwind CSS.
 
 ## Requisitos
 
-- Node.js 20 o superior.
+- Node.js 24 o superior.
 - npm 10 o superior (el repositorio incluye `package-lock.json`).
 - Backend en ejecución en `http://localhost:3000`.
 
