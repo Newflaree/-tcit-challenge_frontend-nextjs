@@ -1,7 +1,6 @@
-import { useEffect, useRef } from "react";
-
 import { Button } from "@/shared/components/ui/Button";
 import { cn } from "@/shared/lib/cn";
+import { useConfirmDialog } from "./useConfirmDialog";
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -28,30 +27,7 @@ export function ConfirmDialog({
   confirmLoading = false,
   className,
 }: ConfirmDialogProps) {
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (open) {
-      previousFocusRef.current = document.activeElement as HTMLElement | null;
-      cancelRef.current?.focus();
-    } else if (previousFocusRef.current) {
-      previousFocusRef.current.focus?.();
-      previousFocusRef.current = null;
-    }
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onCancel();
-      }
-    };
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
-  }, [open, onCancel]);
+  const cancelRef = useConfirmDialog(open, onCancel);
 
   if (!open) return null;
 
@@ -106,37 +82,4 @@ export function ConfirmDialog({
   );
 }
 
-interface PageHeaderProps {
-  title: string;
-  description?: string;
-  action?: React.ReactNode;
-  className?: string;
-}
-
-export function PageHeader({
-  title,
-  description,
-  action,
-  className,
-}: PageHeaderProps) {
-  return (
-    <header
-      className={cn(
-        "flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between",
-        className,
-      )}
-    >
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          {title}
-        </h1>
-        {description ? (
-          <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-            {description}
-          </p>
-        ) : null}
-      </div>
-      {action ? <div>{action}</div> : null}
-    </header>
-  );
-}
+export { PageHeader } from "./PageHeader";

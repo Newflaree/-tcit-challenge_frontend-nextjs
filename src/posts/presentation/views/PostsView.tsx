@@ -1,109 +1,26 @@
 "use client";
 
-import { useState } from "react";
-
-import { usePostsQuery } from "@/posts/presentation/hooks/usePostsQuery";
-import { useFilteredPosts } from "@/posts/presentation/hooks/useFilteredPosts";
-import { useDeletePostMutation } from "@/posts/presentation/hooks/useDeletePostMutation";
-import { useAppDispatch, useAppSelector } from "@/shared/store/hooks";
-import {
-  setFilterName,
-  clearFilter,
-  selectHasActiveFilter,
-  selectPostToDeleteId,
-  requestDelete,
-  cancelDelete,
-} from "@/posts/presentation/store/postsSlice";
-import {
-  PageHeader,
-  ConfirmDialog,
-} from "@/shared/components/ui/ConfirmDialog";
+import { PageHeader } from "@/shared/components/ui/ConfirmDialog";
 import { Alert } from "@/shared/components/ui/Alert";
 import { PostForm } from "@/posts/presentation/components/PostForm";
 import { PostFilter } from "@/posts/presentation/components/PostFilter";
 import { PostList } from "@/posts/presentation/components/PostList";
+import { ConfirmDialog } from "@/shared/components/ui/ConfirmDialog";
+import { PostsHeader } from "@/posts/presentation/components/PostsHeader";
+import { PostsFooter } from "@/posts/presentation/components/PostsFooter";
+import { usePostsView } from "@/posts/presentation/hooks/usePostsView";
+import {
+  setFilterName,
+  clearFilter,
+  cancelDelete,
+} from "@/posts/presentation/store/postsSlice";
 
 export function PostsView() {
-  const dispatch = useAppDispatch();
-  const { data: posts, isLoading, isError, error, refetch } = usePostsQuery();
-  const { posts: filteredPosts, filterName } = useFilteredPosts();
-  const hasActiveFilter = useAppSelector(selectHasActiveFilter);
-  const postToDeleteId = useAppSelector(selectPostToDeleteId);
-  const deleteMutation = useDeletePostMutation();
-  const [deleteError, setDeleteError] = useState<string | null>(null);
-
-  const totalCount = posts?.length ?? 0;
-  const filteredCount = filteredPosts.length;
-  const trimmedFilter = filterName.trim();
-  const isFilteringWithNoResults =
-    hasActiveFilter && filteredCount === 0 && totalCount > 0;
-
-  const postToDelete = posts?.find((p) => p.id === postToDeleteId) ?? null;
-
-  const counterText = hasActiveFilter
-    ? `${filteredCount} de ${totalCount} ${totalCount === 1 ? "post" : "posts"} coinciden`
-    : `${totalCount} ${totalCount === 1 ? "post publicado" : "posts publicados"}`;
-
-  function handleDelete(id: number) {
-    setDeleteError(null);
-    dispatch(requestDelete(id));
-  }
-
-  function handleConfirmDelete() {
-    deleteMutation.mutate(postToDeleteId!, {
-      onSuccess: () => {
-        dispatch(cancelDelete());
-        setDeleteError(null);
-      },
-      onError: (err) => {
-        const status =
-          typeof err === "object" && err !== null && "status" in err
-            ? (err as { status: number }).status
-            : undefined;
-        if (status === 404) {
-          dispatch(cancelDelete());
-          setDeleteError(
-            "Ese post ya no existía en el servidor; actualizamos el hilo.",
-          );
-        } else {
-          const message =
-            err instanceof Error
-              ? err.message
-              : "No se pudo eliminar el post. Inténtalo de nuevo.";
-          setDeleteError(message);
-          dispatch(cancelDelete());
-        }
-      },
-    });
-  }
-
-  function handleCancelDelete() {
-    dispatch(cancelDelete());
-  }
+  const v = usePostsView();
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b border-zinc-200/70 bg-zinc-50/80 backdrop-blur-md dark:border-zinc-800/70 dark:bg-zinc-950/80">
-        <div className="mx-auto flex h-14 w-full max-w-3xl items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-2.5">
-            <span
-              aria-hidden="true"
-              className="flex h-6 w-6 items-center justify-center rounded-md bg-zinc-900 text-[11px] font-bold text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900"
-            >
-              T
-            </span>
-            <p className="text-sm tracking-tight">
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                TCIT
-              </span>{" "}
-              <span className="font-normal text-zinc-400">Posts</span>
-            </p>
-          </div>
-          <span className="rounded-full border border-zinc-200 bg-white px-2.5 py-0.5 text-[11px] font-medium text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
-            demo full-stack
-          </span>
-        </div>
-      </header>
+      <PostsHeader />
 
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6">
         <PageHeader
@@ -111,9 +28,9 @@ export function PostsView() {
           description="Crea publicaciones, encuentra lo que buscas mientras escribes y elimina lo que ya no va. Todo se refleja al instante, sin una sola recarga."
         />
 
-        {deleteError ? (
+        {v.deleteError ? (
           <Alert variant="error" title="No pudimos completar la acción">
-            {deleteError}
+            {v.deleteError}
           </Alert>
         ) : null}
 
@@ -124,54 +41,49 @@ export function PostsView() {
             aria-live="polite"
             className="text-xs font-medium tabular-nums text-zinc-500 dark:text-zinc-400"
           >
-            {counterText}
+            {v.counterText}
           </p>
           <PostFilter
             className="w-full max-w-[220px] sm:max-w-xs"
-            value={filterName}
-            onChange={(value) => dispatch(setFilterName(value))}
-            onClear={() => dispatch(clearFilter())}
+            value={v.filterName}
+            onChange={(value) => v.dispatch(setFilterName(value))}
+            onClear={() => v.dispatch(clearFilter())}
           />
         </div>
 
         <PostList
-          posts={filteredPosts}
-          loading={isLoading}
-          error={isError ? (error as Error).message : undefined}
-          onRetry={() => refetch()}
-          onDelete={handleDelete}
+          posts={v.filteredPosts}
+          loading={v.isLoading}
+          error={v.isError ? (v.error as Error).message : undefined}
+          onRetry={() => v.refetch()}
+          onDelete={v.handleDelete}
           emptyTitle={
-            isFilteringWithNoResults ? "Sin coincidencias" : undefined
+            v.isFilteringWithNoResults ? "Sin coincidencias" : undefined
           }
           emptyDescription={
-            isFilteringWithNoResults
-              ? `Ningún post lleva «${trimmedFilter}» en su nombre. Prueba con otra palabra o limpia el filtro para verlos todos.`
+            v.isFilteringWithNoResults
+              ? `Ningún post lleva «${v.trimmedFilter}» en su nombre. Prueba con otra palabra o limpia el filtro para verlos todos.`
               : undefined
           }
         />
       </main>
 
-      <footer className="border-t border-zinc-200/70 py-6 dark:border-zinc-800/70">
-        <p className="mx-auto w-full max-w-3xl px-4 text-xs text-zinc-400 sm:px-6 dark:text-zinc-500">
-          Next.js · Redux Toolkit · TanStack Query — sobre una API NestJS ·
-          TypeORM · PostgreSQL
-        </p>
-      </footer>
+      <PostsFooter />
 
       <ConfirmDialog
-        open={postToDeleteId !== null}
+        open={v.postToDeleteId !== null}
         title="Eliminar post"
         description={
-          postToDelete
-            ? `«${postToDelete.name}» desaparecerá del hilo al instante. Esta acción no se puede deshacer.`
+          v.postToDelete
+            ? `«${v.postToDelete.name}» desaparecerá del hilo al instante. Esta acción no se puede deshacer.`
             : "El post desaparecerá del hilo al instante. Esta acción no se puede deshacer."
         }
         confirmLabel="Eliminar"
         cancelLabel="Cancelar"
-        onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
-        confirmDisabled={deleteMutation.isPending}
-        confirmLoading={deleteMutation.isPending}
+        onConfirm={v.handleConfirmDelete}
+        onCancel={() => v.dispatch(cancelDelete())}
+        confirmDisabled={v.deleteMutation.isPending}
+        confirmLoading={v.deleteMutation.isPending}
       />
     </div>
   );
