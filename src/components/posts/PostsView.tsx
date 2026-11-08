@@ -47,8 +47,7 @@ export function PostsView() {
   }
 
   function handleConfirmDelete() {
-    if (postToDeleteId === null) return;
-    deleteMutation.mutate(postToDeleteId, {
+    deleteMutation.mutate(postToDeleteId!, {
       onSuccess: () => {
         dispatch(cancelDelete());
         setDeleteError(null);
@@ -76,7 +75,6 @@ export function PostsView() {
   }
 
   function handleCancelDelete() {
-    if (deleteMutation.isPending) return;
     dispatch(cancelDelete());
   }
 
@@ -136,11 +134,7 @@ export function PostsView() {
         <PostList
           posts={filteredPosts}
           loading={isLoading}
-          error={
-            isError
-              ? ((error as Error)?.message ?? "Error al cargar")
-              : undefined
-          }
+          error={isError ? (error as Error).message : undefined}
           onRetry={() => refetch()}
           onDelete={handleDelete}
           emptyTitle={

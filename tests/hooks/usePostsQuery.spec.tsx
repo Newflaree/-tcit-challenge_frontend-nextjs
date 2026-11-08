@@ -126,6 +126,86 @@ describe("Regla: una sola llamada al listado", () => {
     server.events.removeAllListeners("request:start");
   });
 
+  it("eliminar con éxito sin caché no rompe la UI", async () => {
+    const { queryClient, Wrapper } = makeWrapper();
+    // no seed
+
+    const { result: mutationResult } = renderHook(
+      () => useDeletePostMutation(),
+      { wrapper: Wrapper },
+    );
+
+    await expect(mutationResult.current.mutateAsync(1)).resolves.toBeDefined();
+    const cached = queryClient.getQueryData<typeof postsFixture>(["posts"]);
+    expect(cached).toBeUndefined();
+  });
+
+  it("eliminar 404 sin caché no rompe la UI", async () => {
+    const { server } = await import("@/test/mocks/server");
+    const { API_URL } = await import("@/config/env");
+    const { http, HttpResponse } = await import("msw");
+    server.use(
+      http.delete(`${API_URL}/posts/:id`, () =>
+        HttpResponse.json({ statusCode: 404, message: "no", error: "Not Found" }, { status: 404 }),
+      ),
+    );
+
+    const { queryClient, Wrapper } = makeWrapper();
+    // no seed
+
+    const { result: mutationResult } = renderHook(
+      () => useDeletePostMutation(),
+      { wrapper: Wrapper },
+    );
+
+    await expect(mutationResult.current.mutateAsync(999)).rejects.toBeDefined();
+    const cached = queryClient.getQueryData<typeof postsFixture>(["posts"]);
+    expect(cached).toBeUndefined();
+  });
+
+  it("eliminar con error de red mantiene el post en la caché", async () => {
+    const { http, HttpResponse } = await import("msw");
+    const { API_URL } = await import("@/config/env");
+    const { server } = await import("@/test/mocks/server");
+    server.use(
+      http.delete(`${API_URL}/posts/:id`, () => HttpResponse.error()),
+    );
+
+    const { queryClient, Wrapper } = makeWrapper();
+    queryClient.setQueryData(["posts"], postsFixture);
+
+    const { result: mutationResult } = renderHook(
+      () => useDeletePostMutation(),
+      { wrapper: Wrapper },
+    );
+
+    await expect(mutationResult.current.mutateAsync(1)).rejects.toBeDefined();
+
+    const cached = queryClient.getQueryData<typeof postsFixture>(["posts"]);
+    expect(cached?.find((p) => p.id === 1)).toBeDefined();
+  });
+
+  it("eliminar con error 500 mantiene el post en la caché", async () => {
+    const { server } = await import("@/test/mocks/server");
+    const { errorHandlers } = await import("@/test/mocks/handlers");
+    server.use(errorHandlers.deletePostFails);
+
+    const { queryClient, Wrapper } = makeWrapper();
+    queryClient.setQueryData(["posts"], postsFixture);
+
+    const { result: mutationResult } = renderHook(
+      () => useDeletePostMutation(),
+      { wrapper: Wrapper },
+    );
+
+    await expect(mutationResult.current.mutateAsync(1)).rejects.toBeDefined();
+
+    const cached = queryClient.getQueryData<typeof postsFixture>(["posts"]);
+    expect(cached?.find((p) => p.id === 1)).toBeDefined();
+
+    server.events.removeAllListeners("request:start");
+  });
+
   it("eliminar con 404 sincroniza la caché sin repetir el GET", async () => {
     let getCalls = 0;
     server.events.on("request:start", ({ request }) => {
@@ -152,5 +232,20 @@ describe("Regla: una sola llamada al listado", () => {
     expect(getCalls).toBe(0);
 
     server.events.removeAllListeners("request:start");
+  });
+
+  it("crear con caché vacía inicializa la caché", async () => {
+    const { queryClient, Wrapper } = makeWrapper();
+
+    const { result: mutationResult } = renderHook(
+      () => useCreatePostMutation(),
+      { wrapper: Wrapper },
+    );
+
+    await mutationResult.current.mutateAsync(newPostFixture);
+
+    const cached = queryClient.getQueryData<typeof postsFixture>(["posts"]);
+    expect(cached).toHaveLength(1);
+    expect(cached?.[0]).toEqual(createdPostFixture);
   });
 });

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { ConfirmDialog, PageHeader } from "@/components/ui/ConfirmDialog";
 
 describe("ConfirmDialog", () => {
   it("no renderiza cuando open es false", () => {
@@ -57,4 +57,49 @@ describe("ConfirmDialog", () => {
     );
     expect(screen.getByRole("button", { name: "Cancelar" })).toHaveFocus();
   });
+
+  it("restaura el foco al cerrar", () => {
+    const trigger = document.createElement("button");
+    trigger.textContent = "abrir";
+    document.body.appendChild(trigger);
+    trigger.focus();
+
+    const { rerender } = render(
+      <ConfirmDialog
+        open={true}
+        title="Eliminar"
+        onConfirm={jest.fn()}
+        onCancel={jest.fn()}
+      />,
+    );
+    rerender(
+      <ConfirmDialog
+        open={false}
+        title="Eliminar"
+        onConfirm={jest.fn()}
+        onCancel={jest.fn()}
+      />,
+    );
+
+    expect(trigger).toHaveFocus();
+    document.body.removeChild(trigger);
+  });
+
+describe("PageHeader", () => {
+  it("renderiza sin action", () => {
+    render(<PageHeader title="Título" description="Desc" />);
+    expect(screen.getByRole("heading", { name: "Título" })).toBeInTheDocument();
+    expect(screen.getByText("Desc")).toBeInTheDocument();
+  });
+
+  it("renderiza sin description ni action", () => {
+    render(<PageHeader title="Título" />);
+    expect(screen.getByRole("heading", { name: "Título" })).toBeInTheDocument();
+  });
+
+  it("renderiza con action", () => {
+    render(<PageHeader title="Título" action={<button>Acción</button>} />);
+    expect(screen.getByRole("button", { name: "Acción" })).toBeInTheDocument();
+  });
+});
 });

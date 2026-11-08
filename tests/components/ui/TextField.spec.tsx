@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { TextField } from "@/components/ui/FormField";
+import { TextareaField, TextField } from "@/components/ui/FormField";
 
 describe("TextField", () => {
   it("asocia label, input y error", () => {
@@ -23,4 +23,24 @@ describe("TextField", () => {
     render(<TextField label="Nombre" className="custom-class" />);
     expect(screen.getByLabelText("Nombre")).toHaveClass("custom-class");
   });
+
+describe("TextareaField", () => {
+  it("asocia label y error", () => {
+    render(<TextareaField label="Descripción" error="La descripción es obligatoria" />);
+    const ta = screen.getByLabelText("Descripción");
+    expect(ta).toBeInTheDocument();
+    expect(ta).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByRole("alert")).toHaveTextContent("La descripción es obligatoria");
+  });
+
+  it("muestra hint cuando no hay error", () => {
+    render(<TextareaField label="Descripción" hint="Entre 1 y 1000 caracteres" />);
+    expect(screen.getByText("Entre 1 y 1000 caracteres")).toBeInTheDocument();
+  });
+
+  it("acepta className", () => {
+    render(<TextareaField label="Descripción" className="custom-class" />);
+    expect(screen.getByLabelText("Descripción")).toHaveClass("custom-class");
+  });
+});
 });

@@ -65,4 +65,34 @@ describe("PostForm (integración)", () => {
       screen.getByRole("button", { name: "Crear post" }),
     ).toBeInTheDocument();
   });
+
+  it("envía con la tecla Enter", async () => {
+    const user = userEvent.setup();
+    render(<PostForm />, { wrapper: Wrapper });
+
+    await user.type(screen.getByLabelText(/Nombre/), "Post Enter");
+    await user.type(screen.getByLabelText(/Descripción/), "Desc Enter");
+    await user.type(screen.getByLabelText(/Nombre/), "{Enter}");
+
+    await waitFor(() => {
+      expect(screen.getByLabelText(/Nombre/)).toHaveValue("");
+    });
+  });
+
+  it("muestra error si la creación falla", async () => {
+    const { server } = await import("@/test/mocks/server");
+    const { errorHandlers } = await import("@/test/mocks/handlers");
+    server.use(errorHandlers.createPostFails);
+
+    const user = userEvent.setup();
+    render(<PostForm />, { wrapper: Wrapper });
+
+    await user.type(screen.getByLabelText(/Nombre/), "Post error");
+    await user.type(screen.getByLabelText(/Descripción/), "Desc error");
+    await user.click(screen.getByRole("button", { name: "Crear post" }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+  });
 });
