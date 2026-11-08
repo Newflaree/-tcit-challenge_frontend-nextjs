@@ -125,4 +125,32 @@ describe("Regla: una sola llamada al listado", () => {
 
     server.events.removeAllListeners("request:start");
   });
+
+  it("eliminar con 404 sincroniza la caché sin repetir el GET", async () => {
+    let getCalls = 0;
+    server.events.on("request:start", ({ request }) => {
+      if (request.method === "GET" && request.url.includes("/posts")) {
+        getCalls += 1;
+      }
+    });
+
+    const { queryClient, Wrapper } = makeWrapper();
+    queryClient.setQueryData(["posts"], [
+      ...postsFixture,
+      { id: 999, name: "Fantasma", description: "desc" },
+    ]);
+
+    const { result: mutationResult } = renderHook(
+      () => useDeletePostMutation(),
+      { wrapper: Wrapper },
+    );
+
+    await expect(mutationResult.current.mutateAsync(999)).rejects.toBeDefined();
+
+    const cached = queryClient.getQueryData<typeof postsFixture>(["posts"]);
+    expect(cached?.find((p) => p.id === 999)).toBeUndefined();
+    expect(getCalls).toBe(0);
+
+    server.events.removeAllListeners("request:start");
+  });
 });

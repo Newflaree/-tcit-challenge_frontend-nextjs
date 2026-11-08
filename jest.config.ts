@@ -20,20 +20,52 @@ const config: Config = {
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
     "!src/**/*.d.ts",
+    "!src/**/index.ts",
+    "!src/app/**",
     "!src/test/**",
   ],
   coverageThreshold: {
     global: {
-      branches: 0,
-      functions: 0,
-      lines: 0,
-      statements: 0,
+      branches: 75,
+      functions: 70,
+      lines: 85,
+      statements: 85,
     },
     "./src/config/": {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
+    },
+    "./src/features/posts/": {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+      statements: 100,
+    },
+    "./src/lib/": {
+      branches: 70,
+      functions: 0,
+      lines: 90,
+      statements: 90,
+    },
+    "./src/hooks/": {
       branches: 80,
       functions: 90,
       lines: 90,
       statements: 90,
+    },
+    "./src/components/ui/": {
+      branches: 80,
+      functions: 90,
+      lines: 95,
+      statements: 95,
+    },
+    "./src/components/posts/": {
+      branches: 60,
+      functions: 50,
+      lines: 80,
+      statements: 80,
     },
   },
 };
