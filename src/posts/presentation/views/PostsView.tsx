@@ -22,7 +22,7 @@ export function PostsView() {
     <div className="flex min-h-screen flex-col bg-[#faf9f6] dark:bg-zinc-950">
       <PostsHeader />
 
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 py-10 sm:px-6">
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 pb-10 pt-24 sm:px-6">
         <PageHeader
           title="Tus posts"
           description="Crea publicaciones, encuentra lo que buscas mientras escribes y elimina lo que ya no va. Todo se refleja al instante, sin una sola recarga."
