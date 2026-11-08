@@ -2,8 +2,8 @@
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getPosts } from "@/lib/api/posts";
-import { postKeys } from "@/lib/query-keys";
+import { getPosts } from "@/posts/infrastructure/api/posts";
+import { postKeys } from "@/posts/infrastructure/query/query-keys";
 
 export function usePostsQuery() {
   return useQuery({

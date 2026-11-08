@@ -2,7 +2,7 @@ import { server } from "@/test/mocks/server";
 import { errorHandlers } from "@/test/mocks/handlers";
 import { http, HttpResponse } from "msw";
 import { API_URL } from "@/config/env";
-import { createPost, deletePost, getPosts } from "@/lib/api/posts";
+import { createPost, deletePost, getPosts } from "@/posts/infrastructure/api/posts";
 
 describe("api/posts", () => {
   it("getPosts devuelve el listado", async () => {

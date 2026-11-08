@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { createQueryClient } from "@/lib/query-client";
-import { PostForm } from "@/components/posts/PostForm";
+import { PostForm } from "@/posts/presentation/components/PostForm";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import { postsFixture } from "@/test/fixtures/posts";

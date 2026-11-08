@@ -1,4 +1,4 @@
-import { ApiError } from "@/types/post";
+import { ApiError } from "@/posts/domain/Post";
 
 describe("ApiError", () => {
   it("conserva status y mensaje", () => {

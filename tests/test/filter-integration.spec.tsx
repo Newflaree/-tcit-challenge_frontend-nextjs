@@ -3,13 +3,13 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { createQueryClient } from "@/lib/query-client";
-import { PostFilter } from "@/components/posts/PostFilter";
-import { PostList } from "@/components/posts/PostList";
+import { PostFilter } from "@/posts/presentation/components/PostFilter";
+import { PostList } from "@/posts/presentation/components/PostList";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import { setFilterName } from "@/features/posts/postsSlice";
+import { setFilterName } from "@/posts/presentation/store/postsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useFilteredPosts } from "@/hooks/useFilteredPosts";
+import { useFilteredPosts } from "@/posts/presentation/hooks/useFilteredPosts";
 
 function FilteredList() {
   const dispatch = useAppDispatch();

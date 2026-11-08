@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import { usePostsQuery } from "@/hooks/usePostsQuery";
-import { useFilteredPosts } from "@/hooks/useFilteredPosts";
-import { useDeletePostMutation } from "@/hooks/useDeletePostMutation";
+import { usePostsQuery } from "@/posts/presentation/hooks/usePostsQuery";
+import { useFilteredPosts } from "@/posts/presentation/hooks/useFilteredPosts";
+import { useDeletePostMutation } from "@/posts/presentation/hooks/useDeletePostMutation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   setFilterName,
@@ -13,12 +13,12 @@ import {
   selectPostToDeleteId,
   requestDelete,
   cancelDelete,
-} from "@/features/posts/postsSlice";
+} from "@/posts/presentation/store/postsSlice";
 import { PageHeader, ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { Alert } from "@/components/ui/Alert";
-import { PostForm } from "@/components/posts/PostForm";
-import { PostFilter } from "@/components/posts/PostFilter";
-import { PostList } from "@/components/posts/PostList";
+import { PostForm } from "@/posts/presentation/components/PostForm";
+import { PostFilter } from "@/posts/presentation/components/PostFilter";
+import { PostList } from "@/posts/presentation/components/PostList";
 
 export function PostsView() {
   const dispatch = useAppDispatch();

@@ -2,13 +2,8 @@
 
 import { useState } from "react";
 
-import { useCreatePostMutation } from "@/hooks/useCreatePostMutation";
-
-export interface PostFormState {
-  name: string;
-  description: string;
-  errors: { name?: string; description?: string };
-}
+import { useCreatePostMutation } from "@/posts/presentation/hooks/useCreatePostMutation";
+import type { PostFormState } from "@/posts/presentation/types/PostForm";
 
 export function usePostForm() {
   const [name, setName] = useState("");

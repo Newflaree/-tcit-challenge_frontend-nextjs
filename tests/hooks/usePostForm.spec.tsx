@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 
-import { usePostForm } from "@/hooks/usePostForm";
+import { usePostForm } from "@/posts/presentation/hooks/usePostForm";
 
 const mutateAsync = jest.fn().mockResolvedValue({
   id: 1,
@@ -8,7 +8,7 @@ const mutateAsync = jest.fn().mockResolvedValue({
   description: "Desc",
 });
 
-jest.mock("../../src/hooks/useCreatePostMutation", () => ({
+jest.mock("../../src/posts/presentation/hooks/useCreatePostMutation", () => ({
   useCreatePostMutation: () => ({
     mutateAsync,
     isPending: false,

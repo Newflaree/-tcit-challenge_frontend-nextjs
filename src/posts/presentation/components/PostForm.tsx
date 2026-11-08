@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { TextareaField, TextField } from "@/components/ui/FormField";
 import { Alert } from "@/components/ui/Alert";
 import { PencilIcon } from "@/components/ui/icons";
-import { usePostForm } from "@/hooks/usePostForm";
+import { usePostForm } from "@/posts/presentation/hooks/usePostForm";
 
 export function PostForm() {
   const form = usePostForm();

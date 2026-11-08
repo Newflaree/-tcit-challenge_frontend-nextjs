@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { createQueryClient } from "@/lib/query-client";
-import { PostsView } from "@/components/posts/PostsView";
+import { PostsView } from "@/posts/presentation/views/PostsView";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 import { server } from "@/test/mocks/server";

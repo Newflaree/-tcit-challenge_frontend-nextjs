@@ -2,9 +2,9 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { deletePost } from "@/lib/api/posts";
-import { postKeys } from "@/lib/query-keys";
-import type { Post } from "@/types/post";
+import { deletePost } from "@/posts/infrastructure/api/posts";
+import { postKeys } from "@/posts/infrastructure/query/query-keys";
+import type { Post } from "@/posts/domain/Post";
 
 export function useDeletePostMutation() {
   const queryClient = useQueryClient();

@@ -2,9 +2,9 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 
 import { createQueryClient } from "@/lib/query-client";
-import { usePostsQuery } from "@/hooks/usePostsQuery";
-import { useCreatePostMutation } from "@/hooks/useCreatePostMutation";
-import { useDeletePostMutation } from "@/hooks/useDeletePostMutation";
+import { usePostsQuery } from "@/posts/presentation/hooks/usePostsQuery";
+import { useCreatePostMutation } from "@/posts/presentation/hooks/useCreatePostMutation";
+import { useDeletePostMutation } from "@/posts/presentation/hooks/useDeletePostMutation";
 import { server } from "@/test/mocks/server";
 import { errorHandlers } from "@/test/mocks/handlers";
 import {

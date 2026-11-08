@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { PostFilter } from "@/components/posts/PostFilter";
+import { PostFilter } from "@/posts/presentation/components/PostFilter";
 
 describe("PostFilter", () => {
   it("muestra el botón de limpiar sólo con valor", () => {

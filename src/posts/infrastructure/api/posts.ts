@@ -1,5 +1,5 @@
 import { API_URL } from "@/config/env";
-import { ApiError, type CreatePostInput, type Post } from "@/types/post";
+import { ApiError, type CreatePostInput, type Post } from "@/posts/domain/Post";
 
 const BASE_URL = API_URL;
 

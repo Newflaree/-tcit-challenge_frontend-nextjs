@@ -3,9 +3,9 @@
 import { useMemo } from "react";
 
 import { useAppSelector } from "@/store/hooks";
-import { selectFilterName } from "@/features/posts/postsSlice";
-import { usePostsQuery } from "@/hooks/usePostsQuery";
-import { filterPostsByName } from "@/lib/filter-posts";
+import { selectFilterName } from "@/posts/presentation/store/postsSlice";
+import { usePostsQuery } from "@/posts/presentation/hooks/usePostsQuery";
+import { filterPostsByName } from "@/posts/application/filter-posts";
 
 export function useFilteredPosts() {
   const filterName = useAppSelector(selectFilterName);

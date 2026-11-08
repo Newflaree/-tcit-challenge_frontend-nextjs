@@ -1,4 +1,4 @@
-import type { Post } from "@/types/post";
+import type { Post } from "@/posts/domain/Post";
 
 /**
  * Filtra posts por nombre (case-insensitive, tolera espacios al inicio/fin).

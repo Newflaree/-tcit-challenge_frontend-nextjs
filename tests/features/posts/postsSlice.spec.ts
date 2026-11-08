@@ -9,9 +9,9 @@ import {
   selectPostToDeleteId,
   setFilterName,
   postsReducer,
-} from "@/features/posts/postsSlice";
-import { filterPostsByName } from "@/lib/filter-posts";
-import type { Post } from "@/types/post";
+} from "@/posts/presentation/store/postsSlice";
+import { filterPostsByName } from "@/posts/application/filter-posts";
+import type { Post } from "@/posts/domain/Post";
 
 describe("postsSlice (Redux UI state)", () => {
   it("estado inicial correcto", () => {
