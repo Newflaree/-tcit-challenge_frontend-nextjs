@@ -43,7 +43,7 @@ export function PostCard({
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="font-serif text-lg font-semibold leading-snug tracking-tight text-zinc-900 dark:text-zinc-50">
+            <h3 className="font-serif text-lg font-bold leading-snug tracking-tight text-zinc-900 dark:text-zinc-50">
               {name}
             </h3>
             <p className="mt-0.5 font-sans text-[11px] uppercase tracking-wider text-zinc-400 dark:text-zinc-500">

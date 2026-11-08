@@ -22,7 +22,7 @@ export function PageHeader({
     >
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-50">
+          <h1 className="font-serif text-3xl font-extrabold leading-tight tracking-tight text-zinc-900 dark:text-zinc-50">
             {title}
           </h1>
           {description ? (
