@@ -31,7 +31,7 @@ export function PostList({
     return (
       <div className="flex flex-col items-center justify-center gap-3 py-16 text-zinc-400">
         <Spinner label="Cargando posts" />
-        <p className="text-xs font-medium">Preparando el hilo…</p>
+        <p className="font-serif text-sm italic">Preparando el hilo…</p>
       </div>
     );
   }
@@ -45,7 +45,7 @@ export function PostList({
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-200/80 bg-white px-4 shadow-sm divide-y divide-zinc-100 dark:divide-zinc-800/70 dark:border-zinc-800 dark:bg-zinc-900 sm:px-6">
+    <div className="border border-zinc-300/80 bg-[#fdfdfc] px-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)] dark:border-zinc-800 dark:bg-zinc-900 sm:px-6">
       {posts.map((post) => (
         <PostCard
           key={post.id}

@@ -19,10 +19,10 @@ export function PostsView() {
   const v = usePostsView();
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-[#faf9f6] dark:bg-zinc-950">
       <PostsHeader />
 
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6">
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-4 py-10 sm:px-6">
         <PageHeader
           title="Tus posts"
           description="Crea publicaciones, encuentra lo que buscas mientras escribes y elimina lo que ya no va. Todo se refleja al instante, sin una sola recarga."
@@ -39,7 +39,7 @@ export function PostsView() {
         <div className="flex items-center justify-between gap-3">
           <p
             aria-live="polite"
-            className="text-xs font-medium tabular-nums text-zinc-500 dark:text-zinc-400"
+            className="font-sans text-[11px] font-semibold uppercase tracking-[0.1em] text-zinc-500 tabular-nums dark:text-zinc-400"
           >
             {v.counterText}
           </p>

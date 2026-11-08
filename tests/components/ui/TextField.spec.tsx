@@ -24,6 +24,11 @@ describe("TextField", () => {
     expect(screen.getByLabelText("Nombre")).toHaveClass("custom-class");
   });
 
+  it("renderiza icono cuando se provee", () => {
+    render(<TextField label="Nombre" icon={<span data-testid="icon">I</span>} />);
+    expect(screen.getByTestId("icon")).toBeInTheDocument();
+  });
+
 describe("TextareaField", () => {
   it("asocia label y error", () => {
     render(<TextareaField label="Descripción" error="La descripción es obligatoria" />);

@@ -21,7 +21,13 @@ export function PostFilter({
   const hasValue = value.trim().length > 0;
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div
+      className={cn(
+        "flex items-center gap-1.5 rounded-md border border-zinc-300 bg-[#fdfdfc] pl-3 pr-1.5 py-1 shadow-[inset_0_1px_2px_rgba(0,0,0,0.03)] focus-within:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900",
+        className,
+      )}
+    >
+      <SearchIcon className="h-4 w-4 shrink-0 text-zinc-400 dark:text-zinc-500" />
       <TextField
         label="Buscar por nombre"
         srLabel
@@ -30,8 +36,7 @@ export function PostFilter({
         placeholder="Filtrar por nombre..."
         id="post-filter"
         type="search"
-        icon={<SearchIcon className="h-4 w-4" />}
-        className="flex-1"
+        className="flex-1 border-0 bg-transparent shadow-none px-0 py-1 focus:ring-0"
       />
       {hasValue ? (
         <Button
@@ -39,7 +44,7 @@ export function PostFilter({
           variant="ghost"
           onClick={() => (onClear ? onClear() : onChange(""))}
           aria-label="Limpiar filtro"
-          className="shrink-0 px-2"
+          className="shrink-0 px-2 py-1"
         >
           <XMarkIcon className="h-4 w-4" />
         </Button>

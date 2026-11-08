@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 :root {
@@ -16,20 +17,11 @@ html {
 }
 
 body {
-  @apply bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
-  background-image:
-    radial-gradient(1200px 600px at 50% -10%, rgb(0 0 0 / 0.035), transparent 70%);
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-image:
-      radial-gradient(1200px 600px at 50% -10%, rgb(255 255 255 / 0.03), transparent 70%);
-  }
+  @apply bg-[#faf9f6] text-zinc-800 dark:bg-zinc-950 dark:text-zinc-200;
 }
 
 ::selection {
-  @apply bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900;
+  @apply bg-zinc-900 text-[#faf9f6] dark:bg-zinc-100 dark:text-zinc-900;
 }
 
 * {

@@ -16,21 +16,23 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        "flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between",
+        "border-b border-zinc-300/70 pb-6 dark:border-zinc-800",
         className,
       )}
     >
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          {title}
-        </h1>
-        {description ? (
-          <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-            {description}
-          </p>
-        ) : null}
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-zinc-50">
+            {title}
+          </h1>
+          {description ? (
+            <p className="mt-2 max-w-2xl font-sans text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              {description}
+            </p>
+          ) : null}
+        </div>
+        {action ? <div className="shrink-0">{action}</div> : null}
       </div>
-      {action ? <div>{action}</div> : null}
     </header>
   );
 }

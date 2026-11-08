@@ -10,7 +10,7 @@ export function PostForm() {
   const form = usePostForm();
 
   return (
-    <section className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm transition focus-within:border-zinc-300 focus-within:shadow-md sm:p-5 dark:border-zinc-800 dark:bg-zinc-900 dark:focus-within:border-zinc-700">
+    <section className="border border-zinc-300/80 bg-[#fdfdfc] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] dark:border-zinc-800 dark:bg-zinc-900">
       {form.isError ? (
         <div className="mb-4">
           <Alert variant="error">
@@ -38,15 +38,15 @@ export function PostForm() {
             void form.submit();
           }
         }}
-        className="flex gap-3"
+        className="flex gap-3.5"
       >
         <span
           aria-hidden="true"
-          className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-zinc-50 dark:bg-zinc-100 dark:text-zinc-900"
+          className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-zinc-900 text-[#faf9f6] dark:bg-zinc-100 dark:text-zinc-900"
         >
           <PencilIcon className="h-4 w-4" />
         </span>
-        <div className="flex min-w-0 flex-1 flex-col gap-3">
+        <div className="flex min-w-0 flex-1 flex-col gap-3.5">
           <TextField
             label="Nombre"
             srLabel
@@ -64,10 +64,10 @@ export function PostForm() {
             placeholder="Escribe tu post… ¿qué quieres contar hoy?"
             error={form.errors.description}
             required
-            className="min-h-[84px]"
+            className="min-h-[92px]"
           />
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs tabular-nums text-zinc-400 dark:text-zinc-500">
+          <div className="flex items-center justify-between gap-3 border-t border-zinc-200 pt-3.5 dark:border-zinc-800">
+            <p className="font-sans text-[11px] uppercase tracking-wider text-zinc-400 tabular-nums dark:text-zinc-500">
               {form.name.trim().length}/120 · {form.description.trim().length}
               /1000
             </p>

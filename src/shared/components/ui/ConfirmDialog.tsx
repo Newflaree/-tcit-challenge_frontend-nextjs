@@ -37,29 +37,29 @@ export function ConfirmDialog({
       aria-modal="true"
       aria-labelledby="confirm-dialog-title"
       aria-describedby={description ? "confirm-dialog-desc" : undefined}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/40 p-4 backdrop-blur-sm dark:bg-zinc-950/70"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/50 p-4 backdrop-blur-sm dark:bg-zinc-950/80"
     >
       <div
         className={cn(
-          "w-full max-w-md rounded-2xl border border-zinc-200/70 bg-white p-6 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900",
+          "w-full max-w-md border border-zinc-300 bg-[#fdfdfc] p-6 shadow-xl dark:border-zinc-700 dark:bg-zinc-900",
           className,
         )}
       >
         <h2
           id="confirm-dialog-title"
-          className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-100"
+          className="font-serif text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
         >
           {title}
         </h2>
         {description ? (
           <p
             id="confirm-dialog-desc"
-            className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400"
+            className="mt-2 font-serif text-sm leading-relaxed text-zinc-600 dark:text-zinc-400"
           >
             {description}
           </p>
         ) : null}
-        <div className="mt-6 flex justify-end gap-2">
+        <div className="mt-6 flex justify-end gap-2 border-t border-zinc-200 pt-5 dark:border-zinc-800">
           <Button
             ref={cancelRef}
             variant="secondary"

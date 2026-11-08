@@ -7,17 +7,17 @@ import {
 type AlertVariant = "info" | "success" | "error";
 
 const alertClasses: Record<AlertVariant, string> = {
-  info: "border-zinc-200 bg-white text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300",
+  info: "border-zinc-300 bg-[#fdfdfc] text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300",
   success:
-    "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-300",
+    "border-emerald-300/70 bg-emerald-50/70 text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200",
   error:
-    "border-red-200 bg-red-50 text-red-800 dark:border-red-900/60 dark:bg-red-950/40 dark:text-red-300",
+    "border-red-300/70 bg-red-50/70 text-red-900 dark:border-red-800 dark:bg-red-950/40 dark:text-red-200",
 };
 
 const alertIconClasses: Record<AlertVariant, string> = {
   info: "text-zinc-400",
-  success: "text-emerald-500",
-  error: "text-red-500",
+  success: "text-emerald-600 dark:text-emerald-400",
+  error: "text-red-600 dark:text-red-400",
 };
 
 interface AlertProps {
@@ -40,7 +40,7 @@ export function Alert({
       role={role}
       aria-live={variant === "error" ? "assertive" : "polite"}
       className={cn(
-        "flex items-start gap-3 rounded-xl border px-4 py-3 text-sm shadow-xs",
+        "flex items-start gap-3 rounded-md border-l-4 px-4 py-3 font-sans text-sm shadow-[0_1px_2px_rgba(0,0,0,0.04)]",
         alertClasses[variant],
         className,
       )}
@@ -49,8 +49,10 @@ export function Alert({
         className={cn("mt-0.5 h-4 w-4 shrink-0", alertIconClasses[variant])}
       />
       <div>
-        {title ? <p className="font-semibold">{title}</p> : null}
-        <div className={title ? "mt-0.5" : undefined}>{children}</div>
+        {title ? <p className="font-serif font-semibold">{title}</p> : null}
+        <div className={cn("font-serif leading-relaxed", title && "mt-0.5")}>
+          {children}
+        </div>
       </div>
     </div>
   );

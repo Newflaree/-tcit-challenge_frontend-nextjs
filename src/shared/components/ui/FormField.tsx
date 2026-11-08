@@ -8,7 +8,6 @@ interface FormFieldProps {
   error?: string;
   hint?: string;
   required?: boolean;
-  /** Oculta el label visualmente pero lo mantiene para lectores de pantalla. */
   srLabel?: boolean;
   children: React.ReactNode;
   className?: string;
@@ -36,13 +35,13 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
         <label
           htmlFor={htmlFor}
           className={cn(
-            "text-[13px] font-medium text-zinc-700 dark:text-zinc-300",
+            "font-sans text-[11px] font-semibold uppercase tracking-[0.1em] text-zinc-600 dark:text-zinc-400",
             srLabel && "sr-only",
           )}
         >
           {label}
           {required ? (
-            <span className="ml-0.5 text-red-500" aria-hidden="true">
+            <span className="ml-0.5 text-red-600" aria-hidden="true">
               *
             </span>
           ) : null}
@@ -51,7 +50,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
         {hint && !error ? (
           <p
             id={hintId}
-            className="text-xs tabular-nums text-zinc-400 dark:text-zinc-500"
+            className="font-serif text-xs italic text-zinc-500 dark:text-zinc-400"
           >
             {hint}
           </p>
@@ -61,7 +60,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
             id={errorId}
             role="alert"
             aria-live="polite"
-            className="text-xs font-medium text-red-600 dark:text-red-400"
+            className="font-sans text-xs font-medium text-red-700 dark:text-red-400"
           >
             {error}
           </p>
