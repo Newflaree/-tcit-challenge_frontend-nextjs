@@ -5,7 +5,7 @@ Redux Toolkit y Tailwind CSS.
 
 - Puerto por defecto: `4200`
 - URL de la API: `http://localhost:3000/api` (configurable)
-- Documentación del proyecto: [`../README.md`](../README.md)
+- Documentación de puesta en marcha: [`docs/setup.md`](docs/setup.md)
 
 ## Requisitos
 
